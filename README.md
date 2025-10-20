@@ -1,5 +1,5 @@
 Our COS 214 Final Project
-![NJD FILMS blk portrait](https://github.com/user-attachments/assets/368d21b1-bcd4-4f55-89f3-d0355c8a1c45)
+<img src="[https://your-image-url.type](https://github.com/user-attachments/assets/368d21b1-bcd4-4f55-89f3-d0355c8a1c45)" width="100" height="100">
 
 
 #Members
