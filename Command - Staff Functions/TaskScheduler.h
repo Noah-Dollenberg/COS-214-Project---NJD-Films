@@ -7,11 +7,20 @@ class PlantCareRoutine;
 
 class TaskScheduler {
 private:
-    std::vector<StaffCommand*> commands;      // Aggregation
-    PlantCareRoutine* routine;                // Instantiates
+    std::vector<StaffCommand*> commands;
+    std::vector<StaffCommand*> commandHistory;
+    PlantCareRoutine* routine;
     
 public:
-    virtual ~TaskScheduler() = default;
+    TaskScheduler();
+    virtual ~TaskScheduler();
+    
+    void addCommand(StaffCommand* command);
+    void executeCommands();
+    void executeCommand(StaffCommand* command);
+    void clearCommands();
+    int getCommandCount() const;
+    void setRoutine(PlantCareRoutine* r);
 };
 
 #endif // TASKSCHEDULER_H

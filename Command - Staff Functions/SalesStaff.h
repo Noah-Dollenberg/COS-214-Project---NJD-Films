@@ -5,11 +5,12 @@
 class AssistCustomerCommand;
 
 class SalesStaff : public StaffMember {
-private:
-    AssistCustomerCommand* assistCommand;  // Aggregation
-    
 public:
+    SalesStaff(const std::string& memberName = "Sales Staff");
     virtual ~SalesStaff() = default;
+    
+    void performDuties() override;
+    void assistCustomer();
 };
 
 #endif // SALESSTAFF_H
