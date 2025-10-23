@@ -8,14 +8,14 @@ class FertilizePlantsCommand;
 class PlantCareContext;
 
 class PlantCareStaff : public StaffMember {
-private:
-    WaterPlantsCommand* waterCommand;          // Aggregation
-    PrunePlantsCommand* pruneCommand;          // Aggregation
-    FertilizePlantsCommand* fertilizeCommand;  // Aggregation
-    PlantCareContext* careContext;             // Instantiates
-    
 public:
+    PlantCareStaff(const std::string& memberName = "Plant Care Staff");
     virtual ~PlantCareStaff() = default;
+    
+    void performDuties() override;
+    void waterPlants();
+    void prunePlants();
+    void fertilizePlants();
 };
 
 #endif // PLANTCARESTAFF_H

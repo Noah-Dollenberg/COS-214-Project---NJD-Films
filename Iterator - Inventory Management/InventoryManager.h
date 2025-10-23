@@ -5,15 +5,21 @@
 class PlantCollection;
 class PlantIterator;
 class GreenhouseComponent;
+class Plant;
 
 class InventoryManager {
 private:
-    PlantCollection* collection;              // Relationship
-    PlantIterator* iterator;                  // Relationship
-    std::vector<GreenhouseComponent*> components;  // Aggregation
+    PlantCollection* collection;
+    std::vector<GreenhouseComponent*> components;
     
 public:
-    virtual ~InventoryManager() = default;
+    InventoryManager();
+    virtual ~InventoryManager();
+    
+    void setCollection(PlantCollection* coll);
+    PlantIterator* getIterator();
+    void addPlant(Plant* plant);
+    void displayInventory();
 };
 
 #endif // INVENTORYMANAGER_H

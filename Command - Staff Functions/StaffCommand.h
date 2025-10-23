@@ -4,6 +4,8 @@
 class StaffCommand {
 public:
     virtual ~StaffCommand() = default;
+    
+    virtual void execute() = 0;
 };
 
 #endif // STAFFCOMMAND_H
