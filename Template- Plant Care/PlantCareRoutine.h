@@ -4,7 +4,14 @@
 class PlantCareRoutine {
 public:
     virtual ~PlantCareRoutine() = default;
-    // Template method will be added later
+    void careForPlant();
+    
+protected:
+    virtual void checkSoilMoisture() = 0;
+    virtual void water() = 0;
+    virtual void fertilize() = 0;
+    virtual void prune() = 0;
+    virtual void additionalCare() {}
 };
 
-#endif // PLANTCAREROUTINE_H
+#endif

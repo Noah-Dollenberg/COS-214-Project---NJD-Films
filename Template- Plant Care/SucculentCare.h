@@ -5,6 +5,12 @@
 class SucculentCare : public PlantCareRoutine {
 public:
     virtual ~SucculentCare() = default;
+    
+protected:
+    void checkSoilMoisture() override;
+    void water() override;
+    void fertilize() override;
+    void prune() override;
 };
 
-#endif // SUCCULENTCARE_H
+#endif
