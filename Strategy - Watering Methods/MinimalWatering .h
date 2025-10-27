@@ -5,6 +5,7 @@
 class MinimalWatering : public PlantCareStrategy {
 public:
     virtual ~MinimalWatering() = default;
+    void careForPlant() override;
 };
 
 #endif // MINIMALWATERING_H

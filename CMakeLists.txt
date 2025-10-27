@@ -85,4 +85,11 @@ add_executable(COS_214_Project___NJD_Films main.cpp
         "State - Plant lifecycle/MatureState.h"
         "State - Plant lifecycle/FloweringState.h"
         "State - Plant lifecycle/PlantContext.h"
+        "Decorator - Plant Decoration/PlantProduct.cpp"
+        "Decorator - Plant Decoration/BasicPlant.cpp"
+        "Decorator - Plant Decoration/PlantDecorator.cpp"
+        "Decorator - Plant Decoration/DecorativePotDecorator.cpp"
+        "Decorator - Plant Decoration/GiftWrappingDecorator.cpp"
+        "Decorator - Plant Decoration/GreetingCardDecorator.cpp"
+        "Decorator - Plant Decoration/DecoratorTesting.cpp"
 )

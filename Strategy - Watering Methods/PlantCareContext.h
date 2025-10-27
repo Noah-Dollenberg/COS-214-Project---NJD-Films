@@ -6,11 +6,15 @@ class Plant;
 
 class PlantCareContext {
 private:
-    PlantCareStrategy* strategy;  // Aggregation
-    Plant* plant;                 // Relationship
+    PlantCareStrategy* strategy;
+    Plant* plant;
     
 public:
+    PlantCareContext(Plant* p) : plant(p), strategy(nullptr) {}
     virtual ~PlantCareContext() = default;
+    
+    void setStrategy(PlantCareStrategy* s);
+    void executeCare();
 };
 
 #endif // PLANTCARECONTEXT_H
