@@ -1,11 +1,27 @@
-#ifndef LAVENDERFACTORY_H
-#define LAVENDERFACTORY_H
+#ifndef SUCCULENTFACTORY_H
+#define SUCCULENTFACTORY_H
 #include "PlantFactory.h"
+#include "../Plant - Abstract Base/Plant.h"
 
-class LavenderFactory : public PlantFactory {
+class Succulent : public Plant
+{
 public:
-    virtual ~LavenderFactory() = default;
-    Plant* createPlant() override;  // Instantiates Plant
+    Succulent();
+    Succulent(const Succulent &other);
+    ~Succulent() override;
+
+    Plant *clone() const override;
+    std::string getType() const override;
+    void initialize() override;
+    void display() const override;
 };
 
-#endif // LAVENDERFACTORY_H
+class SucculentFactory : public PlantFactory
+{
+public:
+    virtual ~SucculentFactory() = default;
+    Plant *createPlant() override;
+    std::string getPlantType() const override;
+};
+
+#endif
