@@ -5,6 +5,7 @@
 class FrequentWatering : public PlantCareStrategy {
 public:
     virtual ~FrequentWatering() = default;
+    void careForPlant() override;
 };
 
 #endif // FREQUENTWATERING_H

@@ -5,6 +5,7 @@
 class ModerateWatering : public PlantCareStrategy {
 public:
     virtual ~ModerateWatering() = default;
+    void careForPlant() override;
 };
 
 #endif // MODERATEWATERING_H
