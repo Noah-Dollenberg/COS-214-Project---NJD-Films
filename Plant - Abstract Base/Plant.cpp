@@ -1,8 +1,8 @@
-#include "Plant.h"
+#include "../Plant - Abstract Base/Plant.h"
 #include "../Template- Plant Care/PlantCareRoutine.h"
-#include "PlantContext.h"
-#include "PlantState.h"
-#include "PlantCareStrategy.h"
+#include "../State - Plant lifecycle/PlantContext.h"
+#include "../State - Plant lifecycle/PlantState.h"
+#include "../Strategy - Watering Methods/PlantCareStrategy.h"
 #include <iostream>
 #include <iomanip>
 #include <sstream>
