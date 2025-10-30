@@ -4,7 +4,9 @@
 
 class RosePrototype : public PlantPrototype {
 public:
-    virtual ~RosePrototype() = default;
+    RosePrototype();
+    RosePrototype(const RosePrototype& other);
+    virtual ~RosePrototype();
     PlantPrototype* clone() override;
 };
 

@@ -61,6 +61,14 @@
 #include "Strategy - Watering Methods/MinimalWatering .h"
 #include "Strategy - Watering Methods/PlantCareContext.h"
 
+// State Pattern
+#include "State - Plant lifecycle/PlantContext.h"
+#include "State - Plant lifecycle/SeedlingState.h"
+#include "State - Plant lifecycle/GrowingState.h"
+#include "State - Plant lifecycle/MatureState.h"
+#include "State - Plant lifecycle/FloweringState.h"
+#include "State - Plant lifecycle/DormantState.h"
+
 // Adapter Pattern
 #include "Adapter - Legacy Watering System/LegacyIrrigationSystem.h"
 #include "Adapter - Legacy Watering System/ModernWateringSystem.h"
@@ -179,6 +187,7 @@ void demonstratePrototypePattern(vector<Plant*>& plants) {
     cout << "  ID: " << originalRose->getPlantId() << endl;
     cout << "  Species: " << originalRose->getSpecies() << endl;
     cout << "  Price: R" << fixed << setprecision(2) << originalRose->getBasePrice() << endl;
+    cout << "  Health: " << originalRose->getHealthLevel() << "%" << endl;
 
     // Clone the rose
     Plant* clonedRose = originalRose->clone();
@@ -189,6 +198,7 @@ void demonstratePrototypePattern(vector<Plant*>& plants) {
     cout << "  ID: " << clonedRose->getPlantId() << endl;
     cout << "  Species: " << clonedRose->getSpecies() << endl;
     cout << "  Price: R" << fixed << setprecision(2) << clonedRose->getBasePrice() << endl;
+    cout << "  Health: " << clonedRose->getHealthLevel() << "%" << endl;
     cout << "  Same characteristics as original!" << endl;
 
     printSubheader("Cloning Succulent for Propagation");
@@ -201,6 +211,25 @@ void demonstratePrototypePattern(vector<Plant*>& plants) {
     cout << "\nCloned Succulent (Propagated):" << endl;
     cout << "  ID: " << clonedSucculent->getPlantId() << endl;
     cout << "  Species: " << clonedSucculent->getSpecies() << endl;
+
+    printSubheader("Testing Clone Independence");
+
+    // Modify the clone to show it's independent
+    clonedRose->setHealthLevel(95);
+    cout << "\nAfter modifying clone health to 95%:" << endl;
+    cout << "  Original Rose Health: " << originalRose->getHealthLevel() << "%" << endl;
+    cout << "  Cloned Rose Health: " << clonedRose->getHealthLevel() << "%" << endl;
+    cout << "  Clones are independent objects!" << endl;
+
+    printSubheader("Mass Propagation Demo");
+
+    cout << "\nCreating multiple clones for nursery stock:" << endl;
+    for (int i = 0; i < 3; i++) {
+        Plant* clone = originalRose->clone();
+        clone->setPlantId(plants.size() + 1);
+        plants.push_back(clone);
+        cout << "  Clone #" << (i + 1) << " created (ID: " << clone->getPlantId() << ")" << endl;
+    }
 
     cout << "\nPrototype allows efficient plant propagation by cloning" << endl;
     cout << "existing healthy plants, preserving their characteristics." << endl;
@@ -382,40 +411,100 @@ void demonstrateStatePattern(vector<Plant*>& plants) {
 
     printSubheader("Tracking Rose Lifecycle States");
 
+    // Create plant context for state management
+    PlantContext* plantContext = new PlantContext(rose);
+
     // Seedling State
     cout << "\nState 1: SEEDLING" << endl;
+    PlantState* seedlingState = new SeedlingState();
+    plantContext->setState(seedlingState);
+    cout << "  Current State: " << plantContext->getCurrentState()->getStateName() << endl;
     cout << "  - Newly planted, fragile" << endl;
     cout << "  - Needs gentle care" << endl;
     cout << "  - Not ready for sale" << endl;
+    cout << "\n  Performing care actions:" << endl;
+    cout << "    Watering..." << endl;
+    plantContext->water();
+    cout << "    Fertilizing..." << endl;
+    plantContext->fertilize();
+    cout << "    Checking health..." << endl;
+    plantContext->checkHealth();
 
     // Growing State
-    cout << "\nState 2: GROWING" << endl;
+    cout << "\n\nState 2: GROWING" << endl;
+    PlantState* growingState = new GrowingState();
+    plantContext->setState(growingState);
+    cout << "  Current State: " << plantContext->getCurrentState()->getStateName() << endl;
     cout << "  - Actively developing" << endl;
     cout << "  - Regular care required" << endl;
     cout << "  - Still not ready for sale" << endl;
+    cout << "\n  Performing care actions:" << endl;
+    cout << "    Watering..." << endl;
+    plantContext->water();
+    cout << "    Fertilizing..." << endl;
+    plantContext->fertilize();
 
     // Mature State
-    cout << "\nState 3: MATURE" << endl;
+    cout << "\n\nState 3: MATURE" << endl;
+    PlantState* matureState = new MatureState();
+    plantContext->setState(matureState);
+    cout << "  Current State: " << plantContext->getCurrentState()->getStateName() << endl;
     cout << "  - Fully developed" << endl;
     cout << "  - Ready for sale!" << endl;
     cout << "  - Price: R" << fixed << setprecision(2) << rose->getBasePrice() << endl;
     rose->setReadyForSale(true);
+    cout << "\n  Performing care actions:" << endl;
+    cout << "    Watering..." << endl;
+    plantContext->water();
+    cout << "    Checking health..." << endl;
+    plantContext->checkHealth();
 
     // Flowering State
-    cout << "\nState 4: FLOWERING" << endl;
+    cout << "\n\nState 4: FLOWERING" << endl;
+    PlantState* floweringState = new FloweringState();
+    plantContext->setState(floweringState);
+    cout << "  Current State: " << plantContext->getCurrentState()->getStateName() << endl;
     cout << "  - Producing blooms" << endl;
     cout << "  - Premium value" << endl;
     cout << "  - Most attractive to customers" << endl;
+    cout << "\n  Performing care actions:" << endl;
+    cout << "    Watering..." << endl;
+    plantContext->water();
+    cout << "    Fertilizing..." << endl;
+    plantContext->fertilize();
 
     // Dormant State
-    cout << "\nState 5: DORMANT (Winter)" << endl;
+    cout << "\n\nState 5: DORMANT (Winter)" << endl;
+    PlantState* dormantState = new DormantState();
+    plantContext->setState(dormantState);
+    cout << "  Current State: " << plantContext->getCurrentState()->getStateName() << endl;
     cout << "  - Minimal growth" << endl;
     cout << "  - Reduced care needs" << endl;
     cout << "  - Will return to Growing in spring" << endl;
+    cout << "\n  Performing care actions:" << endl;
+    cout << "    Watering..." << endl;
+    plantContext->water();
+    cout << "    Checking health..." << endl;
+    plantContext->checkHealth();
+
+    printSubheader("Demonstrating State Transitions");
+    cout << "\nTransitioning through lifecycle:" << endl;
+    plantContext->setState(new SeedlingState());
+    cout << "  Starting: " << plantContext->getCurrentState()->getStateName() << endl;
+
+    plantContext->setState(new GrowingState());
+    cout << "  → " << plantContext->getCurrentState()->getStateName() << endl;
+
+    plantContext->setState(new MatureState());
+    cout << "  → " << plantContext->getCurrentState()->getStateName() << endl;
+
+    plantContext->setState(new FloweringState());
+    cout << "  → " << plantContext->getCurrentState()->getStateName() << endl;
 
     cout << "\nBENEFIT: State pattern makes lifecycle transitions explicit and" << endl;
     cout << "manages state-specific behaviors cleanly." << endl;
 
+    delete plantContext;
     waitForUser();
 }
 
