@@ -493,13 +493,13 @@ void demonstrateStatePattern(vector<Plant*>& plants) {
     cout << "  Starting: " << plantContext->getCurrentState()->getStateName() << endl;
 
     plantContext->setState(new GrowingState());
-    cout << "  → " << plantContext->getCurrentState()->getStateName() << endl;
+    cout << plantContext->getCurrentState()->getStateName() << endl;
 
     plantContext->setState(new MatureState());
-    cout << "  → " << plantContext->getCurrentState()->getStateName() << endl;
+    cout << plantContext->getCurrentState()->getStateName() << endl;
 
     plantContext->setState(new FloweringState());
-    cout << "  → " << plantContext->getCurrentState()->getStateName() << endl;
+    cout << plantContext->getCurrentState()->getStateName() << endl;
 
     cout << "\nBENEFIT: State pattern makes lifecycle transitions explicit and" << endl;
     cout << "manages state-specific behaviors cleanly." << endl;
@@ -655,7 +655,7 @@ void demonstrateDecoratorPattern(vector<Plant*>& plants) {
     );
     giftPlant->display();
 
-    printSubheader("Scenario 4: Complete Gift Package (All Decorations!)");
+    printSubheader("Scenario 4: Complete Gift Package (All Decorations)");
 
     PlantProduct* completeGift = new BasicPlant(rose);
     completeGift = new DecorativePotDecorator(completeGift, "modern", "white");
@@ -680,6 +680,7 @@ void demonstrateDecoratorPattern(vector<Plant*>& plants) {
 }
 
 // DEMO 11: BUILDER PATTERN - Creating Plant Arrangements
+
 
 void demonstrateBuilderPattern(vector<Plant*>& plants) {
     printHeader("PATTERN 11: BUILDER PATTERN - Complex Arrangements");
@@ -784,7 +785,7 @@ int main() {
         demonstrateBuilderPattern(plants);
 
         // Final Summary
-        printHeader("Sim Done :)");
+        printHeader("Sim Done :) now let us relax please");
 
         cout << "\nFinal Stats:" << endl;
         cout << "  - Plants created: " << plants.size() << endl;
