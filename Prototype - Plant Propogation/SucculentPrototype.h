@@ -4,7 +4,9 @@
 
 class SucculentPrototype : public PlantPrototype {
 public:
-    virtual ~SucculentPrototype() = default;
+    SucculentPrototype();
+    SucculentPrototype(const SucculentPrototype& other);
+    virtual ~SucculentPrototype();
     PlantPrototype* clone() override;
 };
 

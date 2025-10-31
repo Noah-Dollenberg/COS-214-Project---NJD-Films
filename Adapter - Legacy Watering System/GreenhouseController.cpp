@@ -5,9 +5,9 @@
 GreenhouseController::GreenhouseController(ModernWateringSystem *system, GreenhouseComponent *greenhouseComp)
     : wateringSystem(system), greenhouse(greenhouseComp), currentSeason("spring")
 {
-    std::cout << "\n╔═══════════════════════════════════════════╗" << std::endl;
-    std::cout << "║   GREENHOUSE CONTROLLER INITIALIZED       ║" << std::endl;
-    std::cout << "╚═══════════════════════════════════════════╝" << std::endl;
+    std::cout << "\n===========================================" << std::endl;
+    std::cout << "  GREENHOUSE CONTROLLER INITIALIZED" << std::endl;
+    std::cout << "===========================================" << std::endl;
     wateringSystem->adjustForSeason(currentSeason);
 }
 
@@ -18,9 +18,9 @@ GreenhouseController::~GreenhouseController()
 
 void GreenhouseController::performDailyMaintenance()
 {
-    std::cout << "\n╔═══════════════════════════════════════════╗" << std::endl;
-    std::cout << "║      DAILY MAINTENANCE ROUTINE            ║" << std::endl;
-    std::cout << "╚═══════════════════════════════════════════╝" << std::endl;
+    std::cout << "\n===========================================" << std::endl;
+    std::cout << "  DAILY MAINTENANCE ROUTINE" << std::endl;
+    std::cout << "===========================================" << std::endl;
     std::cout << "Season: " << currentSeason << std::endl;
 
     // Greenhouse handles its own plant updates through composite structure
@@ -42,9 +42,9 @@ void GreenhouseController::waterGreenhouse()
 
 void GreenhouseController::changeSeason(const std::string &season)
 {
-    std::cout << "\n╔═══════════════════════════════════════════╗" << std::endl;
-    std::cout << "║         SEASONAL CHANGE                   ║" << std::endl;
-    std::cout << "╚═══════════════════════════════════════════╝" << std::endl;
+    std::cout << "\n===========================================" << std::endl;
+    std::cout << "  SEASONAL CHANGE" << std::endl;
+    std::cout << "===========================================" << std::endl;
     std::cout << "GreenhouseController: Changing season from "
               << currentSeason << " to " << season << std::endl;
 
@@ -66,9 +66,9 @@ std::string GreenhouseController::getCurrentSeason() const
 
 void GreenhouseController::displayGreenhouseStatus() const
 {
-    std::cout << "\n╔════════════════════════════════════════════════╗" << std::endl;
-    std::cout << "║         GREENHOUSE STATUS                      ║" << std::endl;
-    std::cout << "╚════════════════════════════════════════════════╝" << std::endl;
+    std::cout << "\n================================================" << std::endl;
+    std::cout << "  GREENHOUSE STATUS" << std::endl;
+    std::cout << "================================================" << std::endl;
     std::cout << "Season: " << currentSeason << "\n"
               << std::endl;
 
