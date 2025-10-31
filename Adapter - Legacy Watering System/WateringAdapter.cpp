@@ -20,9 +20,9 @@ WateringAdapter::~WateringAdapter()
 
 void WateringAdapter::waterGreenhouse(GreenhouseComponent *greenhouse)
 {
-    std::cout << "\n╔════════════════════════════════════════════════╗" << std::endl;
-    std::cout << "║     ADAPTER: AUTO-WATERING CYCLE STARTED      ║" << std::endl;
-    std::cout << "╚════════════════════════════════════════════════╝" << std::endl;
+    std::cout << "\n================================================" << std::endl;
+    std::cout << "  ADAPTER: AUTO-WATERING CYCLE STARTED" << std::endl;
+    std::cout << "================================================" << std::endl;
     std::cout << "ADAPTER: Translating modern watering requests..." << std::endl;
     std::cout << "ADAPTER: Current season: " << currentSeason << std::endl;
     std::cout << "ADAPTER: Seasonal multiplier: " << seasonalMultiplier << "x" << std::endl;
@@ -48,9 +48,9 @@ void WateringAdapter::waterGreenhouse(GreenhouseComponent *greenhouse)
         legacySystem->activateZone(zone, baseDuration);
     }
 
-    std::cout << "\n╔════════════════════════════════════════════════╗" << std::endl;
-    std::cout << "║       ADAPTER: WATERING CYCLE COMPLETE        ║" << std::endl;
-    std::cout << "╚════════════════════════════════════════════════╝" << std::endl;
+    std::cout << "\n================================================" << std::endl;
+    std::cout << "  ADAPTER: WATERING CYCLE COMPLETE" << std::endl;
+    std::cout << "================================================" << std::endl;
 }
 
 void WateringAdapter::adjustForSeason(const std::string &season)
@@ -98,20 +98,20 @@ void WateringAdapter::adjustForSeason(const std::string &season)
 std::string WateringAdapter::getSystemStatus()
 {
     std::ostringstream oss;
-    oss << "\n╔═══════════════════════════════════╗\n";
-    oss << "║      WATERING SYSTEM STATUS       ║\n";
-    oss << "╠═══════════════════════════════════╣\n";
-    oss << "║ Adapter Layer: ACTIVE             ║\n";
-    oss << "║ Season: " << std::left << std::setw(27) << currentSeason << "║\n";
-    oss << "║ Multiplier: " << std::left << std::setw(23) << seasonalMultiplier << "║\n";
-    oss << "║ Active Zones: " << std::left << std::setw(21) << zoneCounter << "║\n";
-    oss << "╠═══════════════════════════════════╣\n";
-    oss << "║        LEGACY SYSTEM STATUS       ║\n";
-    oss << "╠═══════════════════════════════════╣\n";
+    oss << "\n====================================\n";
+    oss << "  WATERING SYSTEM STATUS\n";
+    oss << "====================================\n";
+    oss << "Adapter Layer: ACTIVE\n";
+    oss << "Season: " << currentSeason << "\n";
+    oss << "Multiplier: " << seasonalMultiplier << "x\n";
+    oss << "Active Zones: " << zoneCounter << "\n";
+    oss << "====================================\n";
+    oss << "  LEGACY SYSTEM STATUS\n";
+    oss << "====================================\n";
 
     std::string legacyStatus = legacySystem->getStatus();
     oss << legacyStatus << "\n";
-    oss << "╚═══════════════════════════════════╝";
+    oss << "====================================";
 
     return oss.str();
 }

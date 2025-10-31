@@ -1,5 +1,5 @@
 #include "PlantProduct.h"
-#include "Plant.h"
+#include "../Plant - Abstract Base/Plant.h"
 #include <iostream>
 
 PlantProduct::PlantProduct() : plant(nullptr) {}
