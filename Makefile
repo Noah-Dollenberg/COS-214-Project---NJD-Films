@@ -108,6 +108,19 @@ run-test: $(TEST_TARGET)
 	@echo "Running $(TEST_TARGET)..."
 	./$(TEST_TARGET)
 
+# Generate Doxygen documentation
+docs:
+	@echo "Generating Doxygen documentation..."
+	@doxygen Doxyfile
+	@echo "Documentation generated in ./docs/html/"
+	@echo "Open ./docs/html/index.html in your browser to view"
+
+# Clean documentation
+clean-docs:
+	@echo "Cleaning documentation..."
+	@rm -rf ./docs
+	@echo "Documentation cleaned!"
+
 # Clean build artifacts (Linux/Unix)
 clean:
 	@echo "Cleaning build artifacts..."
@@ -136,6 +149,8 @@ help:
 	@echo "  make both     - Build both main and test applications"
 	@echo "  make run      - Build and run main application"
 	@echo "  make run-test - Build and run test application"
+	@echo "  make docs     - Generate Doxygen documentation"
+	@echo "  make clean-docs - Remove generated documentation"
 	@echo "  make clean    - Remove all build artifacts (Linux/Unix)"
 	@echo "  make clean-win - Remove all build artifacts (Windows)"
 	@echo "  make help     - Show this help message"
@@ -154,4 +169,4 @@ help:
 	@echo "  11. Template Pattern     - Plant care routines"
 
 # Phony targets (not actual files)
-.PHONY: all test both clean clean-win run run-test help
+.PHONY: all test both clean clean-win clean-docs run run-test docs help
