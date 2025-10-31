@@ -1,3 +1,10 @@
+/**
+ * @file Plant.h
+ * @brief Header file for the Plant abstract base class
+ * @author NJD Films
+ * @date 2024
+ */
+
 #ifndef PLANT_H
 #define PLANT_H
 
@@ -10,190 +17,239 @@ class PlantContext;
 class PlantCareStrategy;
 class PlantState;
 
+/**
+ * @class Plant
+ * @brief Abstract base class representing a plant in the greenhouse system
+ * @ingroup Core
+ *
+ * Plant serves as the abstract base for all plant types in the greenhouse management system.
+ * It maintains comprehensive plant data including identity, physical characteristics, care
+ * requirements, lifecycle state, and pattern-based behaviors.
+ *
+ * The class integrates multiple design patterns:
+ * - **Prototype**: Supports cloning via pure virtual `clone()` method
+ * - **Template**: Uses PlantCareRoutine for standardized care procedures
+ * - **State**: Manages lifecycle stages (seedling, growing, mature, flowering, dormant)
+ * - **Strategy**: Applies different care strategies (frequent, moderate, minimal watering)
+ *
+ * @par Key Responsibilities:
+ * - Track plant identity, species, age, and health
+ * - Manage growth and maturity lifecycle
+ * - Store care requirements (watering, sunlight, fertilizing, soil)
+ * - Maintain care history (last watered, fertilized, pruned)
+ * - Support pattern-based behaviors (clone, state transitions, care strategies)
+ *
+ * @par Design Pattern Roles:
+ * - Prototype: Abstract prototype defining `clone()` interface
+ * - Template: Client of PlantCareRoutine template method
+ * - State: Context maintaining current PlantState
+ * - Strategy: Context using PlantCareStrategy
+ *
+ * @see PlantCareRoutine
+ * @see PlantContext
+ * @see PlantState
+ * @see PlantCareStrategy
+ */
 class Plant {
 private:
-    // ========== IDENTITY ATTRIBUTES ==========
-    int plantId;                          // Unique identifier
-    std::string species;                  // "Rose", "Cactus", "Lavender", etc.
-    std::string scientificName;           // e.g., "Rosa rubiginosa"
-    int age;                              // Age in days
+    // Identity attributes
+    int plantId;                        
+    std::string species;                  
+    std::string scientificName;        
+    int age;                              
 
-    // ========== PHYSICAL ATTRIBUTES ==========
-    double height;                        // Height in cm
-    double basePrice;                     // Base selling price
-    bool readyForSale;                    // Is it mature enough to sell?
-    int healthLevel;                      // 0-100 health percentage
+    // Physical attributes
+    double height;                       
+    double basePrice;                   
+    bool readyForSale;                  
+    int healthLevel;                   
 
-    // ========== CARE REQUIREMENTS ==========
-    int wateringFrequency;                // Days between watering
-    int sunlightRequirement;              // Hours per day (1-12)
-    int fertilizingFrequency;             // Days between fertilizing
-    std::string soilType;                 // "sandy", "loamy", "clay", etc.
+    // Care requirements
+    int wateringFrequency;               
+    int sunlightRequirement;           
+    int fertilizingFrequency;          
+    std::string soilType;                 
 
-    // ========== LIFECYCLE TRACKING ==========
-    int daysToMaturity;                   // Days until ready for sale
-    int currentGrowthDays;                // Days since planting
-    std::string currentSeason;            // "spring", "summer", "fall", "winter"
+    // Lifecycle attributes
+    int daysToMaturity;                   
+    int currentGrowthDays;                
+    std::string currentSeason;            
 
-    // ========== PATTERN RELATIONSHIPS ==========
-    // Template Pattern - care routine
-    PlantCareRoutine* careRoutine;        // Assigned care routine
+    // Pattern integration
+    PlantCareRoutine* careRoutine;       
+    PlantContext* context;                
+    PlantState* currentState;           
+    PlantCareStrategy* careStrategy;      
 
-    // State Pattern - lifecycle state
-    PlantContext* context;                // For state management
-    PlantState* currentState;             // Current lifecycle state
+    // Care history
+    std::string lastWatered;           
+    std::string lastFertilized;           
+    std::string lastPruned;               
+    int timesWatered;                   
+    int timesFertilized;                 
+    int timesPruned;                     
 
-    // Strategy Pattern - watering strategy
-    PlantCareStrategy* careStrategy;      // Current care strategy
-
-    // ========== HISTORY & METADATA ==========
-    std::string lastWatered;              // Timestamp of last watering
-    std::string lastFertilized;           // Timestamp of last fertilizing
-    std::string lastPruned;               // Timestamp of last pruning
-    int timesWatered;                     // Total watering count
-    int timesFertilized;                  // Total fertilizing count
-    int timesPruned;                      // Total pruning count
-
-    // ========== COMPOSITE/INVENTORY ==========
-    std::string location;                 // "Greenhouse Section A", "Shelf 3", etc.
-    int shelfNumber;                      // Which shelf it's on
+    // Location tracking
+    std::string location;               
+    int shelfNumber;                      
 
 protected:
-    // Protected constructor for derived classes
+    /**
+     * @brief Protected constructor for derived classes
+     * @param species Species name
+     * @param daysToMaturity Days until plant reaches maturity
+     */
     Plant(const std::string& species, int daysToMaturity);
 
 public:
-    // ========== CONSTRUCTORS & DESTRUCTOR ==========
+    /** @brief Default constructor */
     Plant();
+
+    /**
+     * @brief Constructor with ID and species
+     * @param id Plant ID
+     * @param species Species name
+     */
     Plant(int id, const std::string& species);
+
+    /** @brief Virtual destructor */
     virtual ~Plant();
 
-    // Copy constructor for Prototype pattern
+    /**
+     * @brief Copy constructor for Prototype pattern
+     * @param other Plant to copy from
+     */
     Plant(const Plant& other);
 
-    // Virtual clone for Prototype pattern
+    /**
+     * @brief Pure virtual clone method for Prototype pattern
+     * @return Pointer to cloned plant
+     * @note Must be implemented by derived classes
+     */
     virtual Plant* clone() const = 0;
 
-    // ========== IDENTITY GETTERS/SETTERS ==========
-    int getPlantId() const;
-    void setPlantId(int id);
-
-    std::string getSpecies() const;
-    void setSpecies(const std::string& species);
-
-    std::string getScientificName() const;
-    void setScientificName(const std::string& name);
-
-    int getAge() const;
-    void incrementAge();  // Called daily/per time step
-
-    // ========== PHYSICAL GETTERS/SETTERS ==========
-    double getHeight() const;
-    void setHeight(double h);
-    void grow(double amount);  // Increase height
-
-    double getBasePrice() const;
-    void setBasePrice(double price);
-
-    bool isReadyForSale() const;
-    void setReadyForSale(bool ready);
-
-    int getHealthLevel() const;
-    void setHealthLevel(int health);
-    void modifyHealth(int delta);  // +/- health
-
-    // ========== CARE REQUIREMENTS GETTERS/SETTERS ==========
-    int getWateringFrequency() const;
-    void setWateringFrequency(int days);
-
-    int getSunlightRequirement() const;
-    void setSunlightRequirement(int hours);
-
-    int getFertilizingFrequency() const;
-    void setFertilizingFrequency(int days);
-
-    std::string getSoilType() const;
-    void setSoilType(const std::string& soil);
-
-    // ========== LIFECYCLE GETTERS/SETTERS ==========
-    int getDaysToMaturity() const;
-    void setDaysToMaturity(int days);
-
-    int getCurrentGrowthDays() const;
-    void incrementGrowthDays();
-
-    std::string getCurrentSeason() const;
-    void setCurrentSeason(const std::string& season);
-
-    bool isMature() const;  // currentGrowthDays >= daysToMaturity
-
-    // ========== PATTERN RELATIONSHIP METHODS ==========
+    // Basic getters/setters (inline comments for brevity)
+    int getPlantId() const;                     
+    void setPlantId(int id);                 
+    std::string getSpecies() const;            
+    void setSpecies(const std::string& species); 
+    std::string getScientificName() const;      
+    void setScientificName(const std::string& name); 
+    int getAge() const;                         
+    void incrementAge();                        
+    double getHeight() const;                   
+    void setHeight(double h);                  
+    void grow(double amount);                   
+    double getBasePrice() const;                
+    void setBasePrice(double price);         
+    bool isReadyForSale() const;                
+    void setReadyForSale(bool ready);           
+    int getHealthLevel() const;                 
+    void setHealthLevel(int health);         
+    void modifyHealth(int delta);               
+    int getWateringFrequency() const;           
+    void setWateringFrequency(int days);        
+    int getSunlightRequirement() const;         
+    void setSunlightRequirement(int hours);     
+    int getFertilizingFrequency() const;       
+    void setFertilizingFrequency(int days);     
+    std::string getSoilType() const;          
+    void setSoilType(const std::string& soil);  
+    int getDaysToMaturity() const;              
+    void setDaysToMaturity(int days);           
+    int getCurrentGrowthDays() const;           
+    void incrementGrowthDays();                 
+    std::string getCurrentSeason() const;      
+    void setCurrentSeason(const std::string& season); 
+    bool isMature() const;                     
 
     // Template Pattern - Care Routine
-    PlantCareRoutine* getCareRoutine() const;
-    void setCareRoutine(PlantCareRoutine* routine);
-    void executeCareRoutine();  // Execute the template method
+    PlantCareRoutine* getCareRoutine() const;   
+    void setCareRoutine(PlantCareRoutine* routine); 
+    /**
+     * @brief Execute the template method care routine
+     * @note Uses Template Pattern through PlantCareRoutine
+     */
+    void executeCareRoutine();
 
     // State Pattern - Lifecycle State
-    PlantContext* getContext() const;
-    void setContext(PlantContext* ctx);
-
-    PlantState* getCurrentState() const;
-    void setState(PlantState* state);
-    void transitionState();  // Trigger state change
+    PlantContext* getContext() const;         
+    void setContext(PlantContext* ctx);        
+    PlantState* getCurrentState() const;        
+    void setState(PlantState* state);           
+    /**
+     * @brief Trigger state transition
+     * @note Uses State Pattern to move between lifecycle stages
+     */
+    void transitionState();
 
     // Strategy Pattern - Care Strategy
-    PlantCareStrategy* getCareStrategy() const;
-    void setCareStrategy(PlantCareStrategy* strategy);
-    void applyCareStrategy();  // Use current strategy
+    PlantCareStrategy* getCareStrategy() const; 
+    void setCareStrategy(PlantCareStrategy* strategy); 
+    /**
+     * @brief Apply current care strategy
+     * @note Uses Strategy Pattern for watering approach
+     */
+    void applyCareStrategy();
 
-    // ========== CARE ACTION METHODS (Command Pattern) ==========
-    void water();
-    void fertilize();
-    void prune();
-    void inspect();
+    // Care actions
+    void water();                       
+    void fertilize();                       
+    void prune();                              
+    void inspect();                            
 
-    // ========== HISTORY TRACKING ==========
-    std::string getLastWatered() const;
+    // Care history
+    std::string getLastWatered() const;        
     void updateLastWatered(const std::string& timestamp);
-
-    std::string getLastFertilized() const;
+    std::string getLastFertilized() const;  
     void updateLastFertilized(const std::string& timestamp);
+    std::string getLastPruned() const;        
+    void updateLastPruned(const std::string& timestamp); 
+    int getTimesWatered() const;               
+    int getTimesFertilized() const;           
+    int getTimesPruned() const;                 
 
-    std::string getLastPruned() const;
-    void updateLastPruned(const std::string& timestamp);
+    // Location
+    std::string getLocation() const;            
+    void setLocation(const std::string& loc);  
+    int getShelfNumber() const;               
+    void setShelfNumber(int shelf);             
 
-    int getTimesWatered() const;
-    int getTimesFertilized() const;
-    int getTimesPruned() const;
+    // Display and type information
+    /**
+     * @brief Display plant information
+     * @note Virtual for polymorphic behavior
+     */
+    virtual void display() const;
 
-    // ========== LOCATION METHODS (Composite Pattern) ==========
-    std::string getLocation() const;
-    void setLocation(const std::string& loc);
+    /**
+     * @brief Get plant type
+     * @return Type string (e.g., "Rose", "Cactus")
+     * @note Pure virtual - must be implemented by derived classes
+     */
+    virtual std::string getType() const = 0;
 
-    int getShelfNumber() const;
-    void setShelfNumber(int shelf);
+    std::string getStateDescription() const;   
+    std::string getCareDescription() const;    
 
-    // ========== DISPLAY & INFO ==========
-    virtual void display() const;  // Virtual for polymorphism
-    virtual std::string getType() const = 0;  // Pure virtual - each plant type implements
-    std::string getStateDescription() const;
-    std::string getCareDescription() const;
+    // Care needs assessment
+    bool needsWater() const;                  
+    bool needsFertilizer() const;             
+    bool needsPruning() const;                 
+    bool isHealthy() const;                     
+    bool needsAttention() const;               
 
-    // ========== VALIDATION & CHECKS ==========
-    bool needsWater() const;       // Check if watering is due
-    bool needsFertilizer() const;  // Check if fertilizing is due
-    bool needsPruning() const;     // Check if pruning is needed
-    bool isHealthy() const;        // health > 70
-    bool needsAttention() const;   // Needs any care action
+    // Simulation
+    void update();                             
+    /**
+     * @brief Initialize plant-specific values
+     * @note Virtual for derived class customization
+     */
+    virtual void initialize();
 
-    // ========== UTILITY METHODS ==========
-    void update();  // Called each simulation step/day
-    virtual void initialize();  // Initialize plant-specific values
-
-    // ========== SERIALIZATION (Optional for save/load) ==========
-    std::string serialize() const;  // Convert to string for saving
-    void deserialize(const std::string& data);  // Load from string
+    // Persistence
+    std::string serialize() const;           
+    void deserialize(const std::string& data);  
 };
 
 #endif // PLANT_H
