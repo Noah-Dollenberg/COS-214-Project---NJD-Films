@@ -1,11 +1,21 @@
 /**
- * Interactive Greenhouse Management System
+ * @file main.cpp
+ * @brief Interactive Greenhouse Management System - Design Pattern Showcase
+ * @author NJD Films
+ * @date 2024
  *
- * COS 214 Project - NJD Films
- *
- * This interactive demo lets users experience the greenhouse system as either:
- * - STAFF MEMBER: Manage plants, propagate, care for inventory, view store layout
- * - CUSTOMER: Browse plants, purchase, create arrangements, customize with decorations
+ * This program demonstrates all 11 design patterns used in the greenhouse system:
+ * 1. Factory - Plant creation
+ * 2. Prototype - Plant cloning/propagation
+ * 3. Composite - Greenhouse hierarchy
+ * 4. Iterator - Inventory traversal
+ * 5. Template - Standardized plant care
+ * 6. Strategy - Dynamic watering approaches
+ * 7. State - Plant lifecycle management
+ * 8. Adapter - Legacy system integration
+ * 9. Command - Task scheduling and execution
+ * 10. Decorator - Plant product customization
+ * 11. Builder - Complex arrangement construction
  */
 
 #include <iostream>
@@ -13,14 +23,15 @@
 #include <vector>
 #include <string>
 #include <limits>
-#include <memory>
 
 using namespace std;
 
-// Plant base class
+// ==================== INCLUDES ====================
+
+// Core
 #include "Plant - Abstract Base/Plant.h"
 
-// Factory Pattern
+// Factory Pattern (includes plant definitions)
 #include "Factory - Plant Creation/PlantFactory.h"
 #include "Factory - Plant Creation/RoseFactory.h"
 #include "Factory - Plant Creation/CactusFactory.h"
@@ -103,663 +114,680 @@ void clearScreen() {
 }
 
 void printHeader(const string& title) {
-    cout << "\n";
-    cout << "================================================" << endl;
+    cout << "\n========================================" << endl;
     cout << "  " << title << endl;
-    cout << "================================================" << endl;
+    cout << "========================================" << endl;
 }
 
-void printSubheader(const string& title) {
-    cout << "\n--- " << title << " ---" << endl;
+void printPatternHeader(const string& patternName) {
+    cout << "\n[DESIGN PATTERN: " << patternName << "]" << endl;
+    cout << string(40, '-') << endl;
 }
 
-void waitForUser() {
+void waitForEnter() {
     cout << "\nPress Enter to continue...";
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
     cin.get();
 }
 
-int getMenuChoice(int min, int max) {
+int getChoice(int min, int max) {
     int choice;
     while (true) {
-        cout << "\nEnter your choice (" << min << "-" << max << "): ";
+        cout << "\nChoice (" << min << "-" << max << "): ";
         if (cin >> choice && choice >= min && choice <= max) {
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
             return choice;
         }
         cin.clear();
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
-        cout << "Invalid input. Please try again." << endl;
+        cout << "Invalid input. Try again." << endl;
     }
 }
 
-// ==================== GLOBAL STATE ====================
+// ==================== GLOBAL DATA ====================
 
-struct GreenhouseState {
-    Greenhouse* greenhouse;
-    GreenhouseInventory* inventory;
-    vector<Plant*> allPlants;
-    vector<PlantProduct*> customerCart;
-    double customerBalance;
-    string currentSeason;
+vector<Plant*> plants;
+Greenhouse* greenhouse = nullptr;
+GreenhouseInventory* inventory = nullptr;
 
-    GreenhouseState() : greenhouse(nullptr), inventory(nullptr),
-                        customerBalance(5000.0), currentSeason("spring") {}
+// ==================== PATTERN DEMONSTRATIONS ====================
 
-    ~GreenhouseState() {
-        delete greenhouse;
-        delete inventory;
-        for (auto plant : allPlants) delete plant;
-        for (auto product : customerCart) delete product;
-    }
-};
+/**
+ * @brief Demonstrates Factory Pattern
+ * Creates different plant types using specialized factories
+ */
+void demo01_Factory() {
+    clearScreen();
+    printHeader("PATTERN 1: FACTORY");
+    printPatternHeader("FACTORY PATTERN");
 
-GreenhouseState* state = nullptr;
+    cout << "\nThe Factory Pattern creates objects without specifying exact class types.\n";
+    cout << "Each factory knows how to create its specific plant type.\n";
 
-// ==================== INITIALIZATION ====================
-
-void initializeGreenhouse() {
-    printHeader("GREENHOUSE SYSTEM INITIALIZATION");
-    cout << "\nSetting up greenhouse structure and initial inventory..." << endl;
-
-    // Create greenhouse structure using Composite Pattern
-    state->greenhouse = new Greenhouse("NJD Films Greenhouse");
-
-    GreenhouseSection* tropicalSection = new GreenhouseSection("Tropical Section");
-    GreenhouseSection* desertSection = new GreenhouseSection("Desert Section");
-    GreenhouseSection* herbSection = new GreenhouseSection("Herb & Flower Section");
-
-    Shelf* tropicalShelf1 = new Shelf(1);
-    Shelf* tropicalShelf2 = new Shelf(2);
-    Shelf* desertShelf1 = new Shelf(3);
-    Shelf* desertShelf2 = new Shelf(4);
-    Shelf* herbShelf1 = new Shelf(5);
-
-    // Create initial plants using Factory Pattern
+    // Create factories
     RoseFactory roseFactory;
     CactusFactory cactusFactory;
     SucculentFactory succulentFactory;
     LavenderFactory lavenderFactory;
     BaobabFactory baobabFactory;
 
+    cout << "\nCreating plants using different factories...\n" << endl;
+
     // Create plants
-    for (int i = 1; i <= 3; i++) {
-        Plant* rose = roseFactory.createPlant();
-        rose->setPlantId(state->allPlants.size() + 1);
-        rose->setReadyForSale(true);
-        state->allPlants.push_back(rose);
-        tropicalShelf1->add(new PlantLeaf(rose));
-    }
+    Plant* rose = roseFactory.createPlant();
+    rose->setPlantId(1);
+    plants.push_back(rose);
+    cout << "RoseFactory      -> Created: " << rose->getType()
+         << " (Price: R" << rose->getBasePrice() << ")" << endl;
 
-    for (int i = 1; i <= 4; i++) {
-        Plant* cactus = cactusFactory.createPlant();
-        cactus->setPlantId(state->allPlants.size() + 1);
-        cactus->setReadyForSale(true);
-        state->allPlants.push_back(cactus);
-        desertShelf1->add(new PlantLeaf(cactus));
-    }
+    Plant* cactus = cactusFactory.createPlant();
+    cactus->setPlantId(2);
+    plants.push_back(cactus);
+    cout << "CactusFactory    -> Created: " << cactus->getType()
+         << " (Price: R" << cactus->getBasePrice() << ")" << endl;
 
-    for (int i = 1; i <= 3; i++) {
-        Plant* succulent = succulentFactory.createPlant();
-        succulent->setPlantId(state->allPlants.size() + 1);
-        succulent->setReadyForSale(true);
-        state->allPlants.push_back(succulent);
-        desertShelf2->add(new PlantLeaf(succulent));
-    }
+    Plant* succulent = succulentFactory.createPlant();
+    succulent->setPlantId(3);
+    plants.push_back(succulent);
+    cout << "SucculentFactory -> Created: " << succulent->getType()
+         << " (Price: R" << succulent->getBasePrice() << ")" << endl;
 
-    for (int i = 1; i <= 2; i++) {
-        Plant* lavender = lavenderFactory.createPlant();
-        lavender->setPlantId(state->allPlants.size() + 1);
-        lavender->setReadyForSale(true);
-        state->allPlants.push_back(lavender);
-        herbShelf1->add(new PlantLeaf(lavender));
-    }
+    Plant* lavender = lavenderFactory.createPlant();
+    lavender->setPlantId(4);
+    plants.push_back(lavender);
+    cout << "LavenderFactory  -> Created: " << lavender->getType()
+         << " (Price: R" << lavender->getBasePrice() << ")" << endl;
 
     Plant* baobab = baobabFactory.createPlant();
-    baobab->setPlantId(state->allPlants.size() + 1);
-    baobab->setReadyForSale(true);
-    state->allPlants.push_back(baobab);
-    tropicalShelf2->add(new PlantLeaf(baobab));
+    baobab->setPlantId(5);
+    plants.push_back(baobab);
+    cout << "BaobabFactory    -> Created: " << baobab->getType()
+         << " (Price: R" << baobab->getBasePrice() << ")" << endl;
 
-    // Build structure
-    tropicalSection->add(tropicalShelf1);
-    tropicalSection->add(tropicalShelf2);
-    desertSection->add(desertShelf1);
-    desertSection->add(desertShelf2);
-    herbSection->add(herbShelf1);
+    cout << "\nFactory Pattern Benefits:" << endl;
+    cout << "- Encapsulates object creation logic" << endl;
+    cout << "- Easy to add new plant types without changing client code" << endl;
+    cout << "- Each factory handles its plant's specific initialization" << endl;
 
-    state->greenhouse->add(tropicalSection);
-    state->greenhouse->add(desertSection);
-    state->greenhouse->add(herbSection);
+    waitForEnter();
+}
 
-    // Create inventory using Iterator Pattern
-    state->inventory = new GreenhouseInventory();
-    for (auto plant : state->allPlants) {
-        state->inventory->addPlant(plant);
+/**
+ * @brief Demonstrates Prototype Pattern
+ * Clones existing plants for propagation
+ */
+void demo02_Prototype() {
+    clearScreen();
+    printHeader("PATTERN 2: PROTOTYPE");
+    printPatternHeader("PROTOTYPE PATTERN");
+
+    cout << "\nThe Prototype Pattern creates new objects by copying existing ones.\n";
+    cout << "Useful for plant propagation - cloning mature plants.\n";
+
+    if (plants.empty()) {
+        cout << "\nNo plants available! Run Factory demo first." << endl;
+        waitForEnter();
+        return;
     }
 
-    cout << "\nGreenhouse initialized successfully!" << endl;
-    cout << "Total plants in inventory: " << state->allPlants.size() << endl;
-    waitForUser();
+    Plant* original = plants[0];
+    cout << "\nOriginal Plant:" << endl;
+    cout << "  ID: " << original->getPlantId() << endl;
+    cout << "  Type: " << original->getType() << endl;
+    cout << "  Price: R" << original->getBasePrice() << endl;
+
+    // Clone the plant
+    Plant* clone = original->clone();
+    clone->setPlantId(plants.size() + 1);
+    clone->setHealthLevel(85);
+    plants.push_back(clone);
+
+    cout << "\nCloned Plant (Propagated):" << endl;
+    cout << "  ID: " << clone->getPlantId() << endl;
+    cout << "  Type: " << clone->getType() << endl;
+    cout << "  Price: R" << clone->getBasePrice() << endl;
+    cout << "  Health: " << clone->getHealthLevel() << "%" << endl;
+
+    cout << "\nPrototype Pattern Benefits:" << endl;
+    cout << "- Fast object creation (copying vs. creating from scratch)" << endl;
+    cout << "- Maintains same characteristics as original" << endl;
+    cout << "- Perfect for plant propagation simulation" << endl;
+
+    waitForEnter();
 }
 
-// ==================== STAFF FUNCTIONS ====================
-
-void staffViewStoreLayout() {
+/**
+ * @brief Demonstrates Composite Pattern
+ * Shows hierarchical greenhouse structure
+ */
+void demo03_Composite() {
     clearScreen();
-    printHeader("GREENHOUSE STORE LAYOUT");
-    cout << "\nComposite Pattern: Hierarchical greenhouse structure\n" << endl;
-    state->greenhouse->display();
-    waitForUser();
+    printHeader("PATTERN 3: COMPOSITE");
+    printPatternHeader("COMPOSITE PATTERN");
+
+    cout << "\nThe Composite Pattern creates tree structures to represent part-whole hierarchies.\n";
+    cout << "The greenhouse has sections, which contain shelves, which hold plants.\n";
+
+    // Build greenhouse structure
+    greenhouse = new Greenhouse("NJD Films Greenhouse");
+
+    GreenhouseSection* tropical = new GreenhouseSection("Tropical Section");
+    GreenhouseSection* desert = new GreenhouseSection("Desert Section");
+
+    Shelf* shelf1 = new Shelf(1);
+    Shelf* shelf2 = new Shelf(2);
+
+    // Add some plants to shelves
+    if (plants.size() >= 2) {
+        shelf1->add(new PlantLeaf(plants[0]));
+        shelf2->add(new PlantLeaf(plants[1]));
+    }
+
+    tropical->add(shelf1);
+    desert->add(shelf2);
+
+    greenhouse->add(tropical);
+    greenhouse->add(desert);
+
+    cout << "\nGreenhouse Hierarchy:\n" << endl;
+    greenhouse->display();
+
+    cout << "\nComposite Pattern Benefits:" << endl;
+    cout << "- Treats individual objects and compositions uniformly" << endl;
+    cout << "- Easy to add new components to the hierarchy" << endl;
+    cout << "- Simplifies client code (single interface for all)" << endl;
+
+    waitForEnter();
 }
 
-void staffViewInventory() {
+/**
+ * @brief Demonstrates Iterator Pattern
+ * Traverses plant inventory without exposing internal structure
+ */
+void demo04_Iterator() {
     clearScreen();
-    printHeader("PLANT INVENTORY");
-    cout << "\nIterator Pattern: Traversing plant collection\n" << endl;
+    printHeader("PATTERN 4: ITERATOR");
+    printPatternHeader("ITERATOR PATTERN");
 
-    PlantIterator* iterator = state->inventory->createIterator();
-    int count = 0;
+    cout << "\nThe Iterator Pattern provides a way to access elements sequentially\n";
+    cout << "without exposing the underlying collection structure.\n";
 
-    cout << left << setw(5) << "ID" << setw(15) << "Species"
-         << setw(12) << "Price (R)" << setw(12) << "Health"
-         << setw(15) << "Ready?" << endl;
-    cout << string(65, '-') << endl;
+    // Create inventory
+    inventory = new GreenhouseInventory();
+    for (Plant* plant : plants) {
+        inventory->addPlant(plant);
+    }
 
+    cout << "\nIterating through inventory:\n" << endl;
+    cout << left << setw(5) << "ID" << setw(15) << "Type"
+         << setw(12) << "Price" << setw(10) << "Health" << endl;
+    cout << string(42, '-') << endl;
+
+    PlantIterator* iterator = inventory->createIterator();
     iterator->first();
+
     while (!iterator->isDone()) {
         Plant* plant = iterator->currentItem();
-        count++;
         cout << left << setw(5) << plant->getPlantId()
-             << setw(15) << plant->getSpecies()
+             << setw(15) << plant->getType()
              << "R" << setw(11) << fixed << setprecision(2) << plant->getBasePrice()
-             << setw(12) << plant->getHealthLevel() << "%"
-             << setw(15) << (plant->isReadyForSale() ? "YES" : "NO")
+             << setw(10) << plant->getHealthLevel() << "%"
              << endl;
         iterator->next();
     }
 
-    cout << "\nTotal plants: " << count << endl;
     delete iterator;
-    waitForUser();
+
+    cout << "\nIterator Pattern Benefits:" << endl;
+    cout << "- Hides internal collection structure" << endl;
+    cout << "- Multiple iterators can traverse independently" << endl;
+    cout << "- Uniform interface for different collection types" << endl;
+
+    waitForEnter();
 }
 
-void staffPropagatePlant() {
+/**
+ * @brief Demonstrates Template Pattern
+ * Shows standardized plant care routines with variations
+ */
+void demo05_Template() {
     clearScreen();
-    printHeader("PLANT PROPAGATION");
-    cout << "\nPrototype Pattern: Cloning plants for propagation\n" << endl;
+    printHeader("PATTERN 5: TEMPLATE");
+    printPatternHeader("TEMPLATE PATTERN");
 
-    staffViewInventory();
+    cout << "\nThe Template Pattern defines a skeleton algorithm in a base class,\n";
+    cout << "allowing subclasses to override specific steps without changing structure.\n";
 
-    cout << "\nEnter the Plant ID to propagate: ";
-    int id;
-    cin >> id;
-    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    cout << "\nAvailable Care Routines:" << endl;
+    cout << "1. Rose Care (frequent watering + fertilizing)" << endl;
+    cout << "2. Succulent Care (minimal water + inspection)" << endl;
+    cout << "3. Tree Care (moderate water + pruning)" << endl;
 
-    Plant* original = nullptr;
-    for (auto plant : state->allPlants) {
-        if (plant->getPlantId() == id) {
-            original = plant;
-            break;
-        }
-    }
-
-    if (!original) {
-        cout << "\nPlant not found!" << endl;
-        waitForUser();
-        return;
-    }
-
-    // Clone using Prototype Pattern
-    Plant* clone = original->clone();
-    clone->setPlantId(state->allPlants.size() + 1);
-    clone->setReadyForSale(false); // New clones need time to mature
-    clone->setHealthLevel(80); // Start with good health
-
-    state->allPlants.push_back(clone);
-    state->inventory->addPlant(clone);
-
-    cout << "\n[PROTOTYPE PATTERN]" << endl;
-    cout << "Successfully propagated " << original->getSpecies() << "!" << endl;
-    cout << "Original ID: " << original->getPlantId() << endl;
-    cout << "Clone ID: " << clone->getPlantId() << endl;
-    cout << "\nThe clone will be ready for sale after maturation." << endl;
-
-    waitForUser();
-}
-
-void staffCarePlants() {
-    clearScreen();
-    printHeader("PLANT CARE ROUTINE");
-    cout << "\nTemplate Pattern: Standardized care procedures\n" << endl;
-
-    cout << "Select care routine:" << endl;
-    cout << "1. Rose Care (Frequent watering + fertilizing)" << endl;
-    cout << "2. Succulent Care (Minimal water + inspection)" << endl;
-    cout << "3. Tree Care (Moderate water + pruning)" << endl;
-
-    int choice = getMenuChoice(1, 3);
+    int choice = getChoice(1, 3);
 
     PlantCareRoutine* routine = nullptr;
-    string routineType;
+    string type;
 
     if (choice == 1) {
         routine = new RoseCare();
-        routineType = "Rose Care";
+        type = "ROSE CARE";
     } else if (choice == 2) {
         routine = new SucculentCare();
-        routineType = "Succulent Care";
+        type = "SUCCULENT CARE";
     } else {
         routine = new TreeCare();
-        routineType = "Tree Care";
+        type = "TREE CARE";
     }
 
-    cout << "\n[TEMPLATE PATTERN: " << routineType << "]" << endl;
+    cout << "\nExecuting " << type << " Routine:\n" << endl;
     routine->careForPlant();
 
-    cout << "\nCare routine completed successfully!" << endl;
+    cout << "\nTemplate Pattern Benefits:" << endl;
+    cout << "- Defines common algorithm structure" << endl;
+    cout << "- Allows customization of specific steps" << endl;
+    cout << "- Reduces code duplication across similar algorithms" << endl;
 
     delete routine;
-    waitForUser();
+    waitForEnter();
 }
 
-void staffWaterPlants() {
+/**
+ * @brief Demonstrates Strategy Pattern
+ * Shows dynamic watering strategy selection
+ */
+void demo06_Strategy() {
     clearScreen();
-    printHeader("WATERING PLANTS");
-    cout << "\nStrategy Pattern: Dynamic watering strategies\n" << endl;
+    printHeader("PATTERN 6: STRATEGY");
+    printPatternHeader("STRATEGY PATTERN");
 
-    cout << "Select watering strategy:" << endl;
-    cout << "1. Frequent Watering (Daily, high water)" << endl;
-    cout << "2. Moderate Watering (Every 3-5 days)" << endl;
-    cout << "3. Minimal Watering (Weekly, low water)" << endl;
+    cout << "\nThe Strategy Pattern defines a family of algorithms,\n";
+    cout << "encapsulates each one, and makes them interchangeable.\n";
 
-    int choice = getMenuChoice(1, 3);
+    if (plants.empty()) {
+        cout << "\nNo plants available!" << endl;
+        waitForEnter();
+        return;
+    }
+
+    cout << "\nWatering Strategies:" << endl;
+    cout << "1. Frequent Watering (daily, high volume)" << endl;
+    cout << "2. Moderate Watering (every 3-5 days)" << endl;
+    cout << "3. Minimal Watering (weekly, low volume)" << endl;
+
+    int choice = getChoice(1, 3);
 
     PlantCareStrategy* strategy = nullptr;
-    string strategyType;
+    string type;
 
     if (choice == 1) {
         strategy = new FrequentWatering();
-        strategyType = "Frequent Watering";
+        type = "FREQUENT WATERING";
     } else if (choice == 2) {
         strategy = new ModerateWatering();
-        strategyType = "Moderate Watering";
+        type = "MODERATE WATERING";
     } else {
         strategy = new MinimalWatering();
-        strategyType = "Minimal Watering";
+        type = "MINIMAL WATERING";
     }
 
-    // Use first plant as example for strategy
-    Plant* examplePlant = state->allPlants[0];
-    PlantCareContext context(examplePlant);
+    Plant* plant = plants[0];
+    PlantCareContext context(plant);
     context.setStrategy(strategy);
 
-    cout << "\n[STRATEGY PATTERN: " << strategyType << "]" << endl;
-    cout << "Applying strategy to plant: " << examplePlant->getSpecies() << endl;
+    cout << "\nApplying " << type << " to " << plant->getType() << ":\n" << endl;
     context.executeCare();
 
-    cout << "\nWatering completed successfully!" << endl;
-    cout << "Strategy applied to plants in greenhouse." << endl;
+    cout << "\nStrategy Pattern Benefits:" << endl;
+    cout << "- Algorithms can be selected at runtime" << endl;
+    cout << "- Easy to add new strategies without modifying context" << endl;
+    cout << "- Eliminates conditional statements for strategy selection" << endl;
 
     delete strategy;
-    waitForUser();
+    waitForEnter();
 }
 
-void staffManageLifecycle() {
+/**
+ * @brief Demonstrates State Pattern
+ * Shows plant lifecycle state transitions
+ */
+void demo07_State() {
     clearScreen();
-    printHeader("PLANT LIFECYCLE MANAGEMENT");
-    cout << "\nState Pattern: Managing plant growth states\n" << endl;
+    printHeader("PATTERN 7: STATE");
+    printPatternHeader("STATE PATTERN");
 
-    if (state->allPlants.empty()) {
-        cout << "No plants available!" << endl;
-        waitForUser();
+    cout << "\nThe State Pattern allows an object to alter its behavior\n";
+    cout << "when its internal state changes (appears to change its class).\n";
+
+    if (plants.empty()) {
+        cout << "\nNo plants available!" << endl;
+        waitForEnter();
         return;
     }
 
-    Plant* plant = state->allPlants[0];
+    Plant* plant = plants[0];
     PlantContext* context = new PlantContext(plant);
 
-    cout << "Demonstrating lifecycle for: " << plant->getSpecies() << " (ID: " << plant->getPlantId() << ")\n" << endl;
+    cout << "\nPlant: " << plant->getType() << endl;
+    cout << "\nLifecycle States:" << endl;
+    cout << "  Seedling -> Growing -> Mature -> Flowering -> Dormant\n" << endl;
 
-    // Progress through states
-    cout << "1. SEEDLING STATE" << endl;
+    // Set initial state
     context->setState(new SeedlingState());
-    cout << "   Current: " << context->getCurrentState()->getStateName() << endl;
+    cout << "Current State: SEEDLING" << endl;
     context->water();
-
-    cout << "\n2. GROWING STATE" << endl;
-    context->setState(new GrowingState());
-    cout << "   Current: " << context->getCurrentState()->getStateName() << endl;
-    context->fertilize();
-
-    cout << "\n3. MATURE STATE" << endl;
-    context->setState(new MatureState());
-    cout << "   Current: " << context->getCurrentState()->getStateName() << endl;
     context->checkHealth();
 
-    cout << "\n4. FLOWERING STATE" << endl;
-    context->setState(new FloweringState());
-    cout << "   Current: " << context->getCurrentState()->getStateName() << endl;
-    cout << "   Plant is now in peak condition!" << endl;
+    cout << "\n[Transitioning to Growing...]" << endl;
+    context->setState(new GrowingState());
+    cout << "Current State: GROWING" << endl;
+    context->water();
+    context->fertilize();
 
-    cout << "\n[STATE PATTERN]" << endl;
-    cout << "Plant has progressed through all lifecycle states successfully." << endl;
+    cout << "\n[Transitioning to Mature...]" << endl;
+    context->setState(new MatureState());
+    cout << "Current State: MATURE" << endl;
+    context->water();
+    context->checkHealth();
+
+    cout << "\nState Pattern Benefits:" << endl;
+    cout << "- Localizes state-specific behavior" << endl;
+    cout << "- Makes state transitions explicit" << endl;
+    cout << "- Eliminates large conditional statements" << endl;
 
     delete context;
-    waitForUser();
+    waitForEnter();
 }
 
-void staffUseAdapter() {
+/**
+ * @brief Demonstrates Adapter Pattern
+ * Shows legacy system integration
+ */
+void demo08_Adapter() {
     clearScreen();
-    printHeader("LEGACY WATERING SYSTEM");
-    cout << "\nAdapter Pattern: Integrating old irrigation system\n" << endl;
+    printHeader("PATTERN 8: ADAPTER");
+    printPatternHeader("ADAPTER PATTERN");
 
-    LegacyIrrigationSystem* legacySystem = new LegacyIrrigationSystem();
-    ModernWateringSystem* modernSystem = new WateringAdapter(legacySystem);
+    cout << "\nThe Adapter Pattern converts the interface of a class into another\n";
+    cout << "interface clients expect, allowing incompatible systems to work together.\n";
 
-    GreenhouseController controller(modernSystem, state->greenhouse);
+    cout << "\nScenario: Integrating legacy irrigation system with modern greenhouse.\n" << endl;
 
-    cout << "\n[ADAPTER PATTERN]" << endl;
-    cout << "Using legacy irrigation system through modern interface..." << endl;
+    // Create legacy system
+    LegacyIrrigationSystem* legacy = new LegacyIrrigationSystem();
 
-    controller.performDailyMaintenance();
+    // Create adapter
+    ModernWateringSystem* adapter = new WateringAdapter(legacy);
 
-    cout << "\nAdapter successfully integrated legacy system!" << endl;
+    // Create simple greenhouse component for controller
+    Greenhouse* tempGreenhouse = new Greenhouse("Demo Greenhouse");
 
-    delete modernSystem;
-    delete legacySystem;
-    waitForUser();
+    // Create controller (requires 2 parameters)
+    GreenhouseController controller(adapter, tempGreenhouse);
+
+    cout << "Using adapted legacy system through modern interface:\n" << endl;
+    controller.waterGreenhouse();
+
+    cout << "\nAdapter Pattern Benefits:" << endl;
+    cout << "- Reuses existing legacy code" << endl;
+    cout << "- Provides clean modern interface" << endl;
+    cout << "- Isolates legacy system complexity" << endl;
+
+    delete tempGreenhouse;
+    delete adapter;
+    delete legacy;
+    waitForEnter();
 }
 
-void staffScheduleTasks() {
+/**
+ * @brief Demonstrates Command Pattern
+ * Shows task scheduling and execution
+ */
+void demo09_Command() {
     clearScreen();
-    printHeader("STAFF TASK SCHEDULING");
-    cout << "\nCommand Pattern: Queuing and executing staff tasks\n" << endl;
+    printHeader("PATTERN 9: COMMAND");
+    printPatternHeader("COMMAND PATTERN");
 
+    cout << "\nThe Command Pattern encapsulates a request as an object,\n";
+    cout << "allowing parameterization, queuing, logging, and undo operations.\n";
+
+    if (plants.empty()) {
+        cout << "\nNo plants available!" << endl;
+        waitForEnter();
+        return;
+    }
+
+    // Create staff members
+    PlantCareStaff careStaff("Alice");
+    SalesStaff salesStaff("Bob");
+
+    // Create commands (commands don't take plant lists)
+    StaffCommand* waterCmd = new WaterPlantsCommand(&careStaff);
+    StaffCommand* fertilizeCmd = new FertilizePlantsCommand(&careStaff);
+    StaffCommand* pruneCmd = new PrunePlantsCommand(&careStaff);
+    StaffCommand* assistCmd = new AssistCustomerCommand(&salesStaff);
+
+    // Create task scheduler
     TaskScheduler scheduler;
 
-    PlantCareStaff* careStaff = new PlantCareStaff("John");
-    SalesStaff* salesStaff = new SalesStaff("Sarah");
-
-    cout << "Creating staff task schedule...\n" << endl;
-
-    // Create commands
-    WaterPlantsCommand* waterCmd = new WaterPlantsCommand(careStaff);
-    FertilizePlantsCommand* fertilizeCmd = new FertilizePlantsCommand(careStaff);
-    PrunePlantsCommand* pruneCmd = new PrunePlantsCommand(careStaff);
+    cout << "\nScheduling tasks for the day:\n" << endl;
 
     scheduler.addCommand(waterCmd);
-    scheduler.addCommand(fertilizeCmd);
-    scheduler.addCommand(pruneCmd);
+    cout << "- Added: Water Plants" << endl;
 
-    cout << "[COMMAND PATTERN]" << endl;
-    cout << "Executing scheduled tasks...\n" << endl;
+    scheduler.addCommand(fertilizeCmd);
+    cout << "- Added: Fertilize Plants" << endl;
+
+    scheduler.addCommand(pruneCmd);
+    cout << "- Added: Prune Plants" << endl;
+
+    scheduler.addCommand(assistCmd);
+    cout << "- Added: Assist Customer" << endl;
+
+    cout << "\nExecuting all scheduled tasks:\n" << endl;
     scheduler.executeCommands();
 
-    cout << "\nAll tasks completed successfully!" << endl;
+    cout << "\nCommand Pattern Benefits:" << endl;
+    cout << "- Decouples sender from receiver" << endl;
+    cout << "- Easy to add new commands" << endl;
+    cout << "- Supports queuing, logging, and undo" << endl;
 
-    delete careStaff;
-    delete salesStaff;
-    waitForUser();
+    delete waterCmd;
+    delete fertilizeCmd;
+    delete pruneCmd;
+    delete assistCmd;
+    waitForEnter();
 }
 
-void staffMenu() {
-    while (true) {
-        clearScreen();
-        printHeader("STAFF MEMBER PORTAL");
-        cout << "\nWelcome, Staff Member! Current Season: " << state->currentSeason << endl;
-        cout << "\n1. View Store Layout (Composite)" << endl;
-        cout << "2. View Inventory (Iterator)" << endl;
-        cout << "3. Propagate Plant (Prototype)" << endl;
-        cout << "4. Perform Care Routine (Template)" << endl;
-        cout << "5. Water Plants (Strategy)" << endl;
-        cout << "6. Manage Plant Lifecycle (State)" << endl;
-        cout << "7. Use Legacy Watering System (Adapter)" << endl;
-        cout << "8. Schedule Staff Tasks (Command)" << endl;
-        cout << "9. Back to Main Menu" << endl;
-
-        int choice = getMenuChoice(1, 9);
-
-        switch (choice) {
-            case 1: staffViewStoreLayout(); break;
-            case 2: staffViewInventory(); break;
-            case 3: staffPropagatePlant(); break;
-            case 4: staffCarePlants(); break;
-            case 5: staffWaterPlants(); break;
-            case 6: staffManageLifecycle(); break;
-            case 7: staffUseAdapter(); break;
-            case 8: staffScheduleTasks(); break;
-            case 9: return;
-        }
-    }
-}
-
-// ==================== CUSTOMER FUNCTIONS ====================
-
-void customerBrowsePlants() {
+/**
+ * @brief Demonstrates Decorator Pattern
+ * Shows dynamic feature addition to plant products
+ */
+void demo10_Decorator() {
     clearScreen();
-    printHeader("BROWSE AVAILABLE PLANTS");
+    printHeader("PATTERN 10: DECORATOR");
+    printPatternHeader("DECORATOR PATTERN");
 
-    cout << "\nPlants ready for sale:\n" << endl;
-    cout << left << setw(5) << "ID" << setw(15) << "Species"
-         << setw(12) << "Price (R)" << setw(12) << "Health" << endl;
-    cout << string(50, '-') << endl;
+    cout << "\nThe Decorator Pattern attaches additional responsibilities to an object\n";
+    cout << "dynamically, providing a flexible alternative to subclassing.\n";
 
-    for (auto plant : state->allPlants) {
-        if (plant->isReadyForSale()) {
-            cout << left << setw(5) << plant->getPlantId()
-                 << setw(15) << plant->getSpecies()
-                 << "R" << setw(11) << fixed << setprecision(2) << plant->getBasePrice()
-                 << setw(12) << plant->getHealthLevel() << "%"
-                 << endl;
-        }
-    }
-
-    cout << "\nYour balance: R" << fixed << setprecision(2) << state->customerBalance << endl;
-    waitForUser();
-}
-
-void customerBuyPlant() {
-    clearScreen();
-    printHeader("PURCHASE PLANT");
-
-    customerBrowsePlants();
-
-    cout << "\nEnter Plant ID to purchase (0 to cancel): ";
-    int id;
-    cin >> id;
-    cin.ignore(numeric_limits<streamsize>::max(), '\n');
-
-    if (id == 0) return;
-
-    Plant* plant = nullptr;
-    for (auto p : state->allPlants) {
-        if (p->getPlantId() == id && p->isReadyForSale()) {
-            plant = p;
-            break;
-        }
-    }
-
-    if (!plant) {
-        cout << "\nPlant not found or not available for sale!" << endl;
-        waitForUser();
+    if (plants.empty()) {
+        cout << "\nNo plants available!" << endl;
+        waitForEnter();
         return;
     }
 
-    if (plant->getBasePrice() > state->customerBalance) {
-        cout << "\nInsufficient funds!" << endl;
-        waitForUser();
-        return;
-    }
+    Plant* plant = plants[0];
 
-    // Create basic plant product
+    cout << "\nCreating customized plant product:\n" << endl;
+
+    // Start with basic plant
     PlantProduct* product = new BasicPlant(plant);
+    cout << "1. Basic Plant: " << product->getDescription() << endl;
+    cout << "   Price: R" << fixed << setprecision(2) << product->getPrice() << endl;
 
-    cout << "\nWould you like to add decorations?" << endl;
-    cout << "1. Just the plant (R0)" << endl;
-    cout << "2. Add Decorative Pot (+R50)" << endl;
-    cout << "3. Add Gift Wrapping (+R25)" << endl;
-    cout << "4. Add Both Pot & Wrapping (+R75)" << endl;
+    // Add decorative pot
+    product = new DecorativePotDecorator(product, "ceramic", "white");
+    cout << "\n2. + Decorative Pot: " << product->getDescription() << endl;
+    cout << "   Price: R" << product->getPrice() << endl;
 
-    int choice = getMenuChoice(1, 4);
+    // Add gift wrapping
+    product = new GiftWrappingDecorator(product, "elegant", "gold", true);
+    cout << "\n3. + Gift Wrapping: " << product->getDescription() << endl;
+    cout << "   Price: R" << product->getPrice() << endl;
 
-    cout << "\n[DECORATOR PATTERN]" << endl;
+    // Add greeting card
+    product = new GreetingCardDecorator(product, "birthday", "Happy Birthday!", "Mom", "Sarah");
+    cout << "\n4. + Greeting Card: " << product->getDescription() << endl;
+    cout << "   Price: R" << product->getPrice() << endl;
 
-    if (choice == 2 || choice == 4) {
-        product = new DecorativePotDecorator(product);
-        cout << "Added: Decorative Pot" << endl;
-    }
-    if (choice == 3 || choice == 4) {
-        product = new GiftWrappingDecorator(product);
-        cout << "Added: Gift Wrapping" << endl;
-    }
+    cout << "\nFinal product:" << endl;
+    product->display();
 
-    state->customerCart.push_back(product);
-    state->customerBalance -= product->getPrice();
+    cout << "\nDecorator Pattern Benefits:" << endl;
+    cout << "- Adds responsibilities without modifying original class" << endl;
+    cout << "- More flexible than static inheritance" << endl;
+    cout << "- Decorators can be stacked/combined" << endl;
 
-    cout << "\nPurchase successful!" << endl;
-    cout << "Total cost: R" << fixed << setprecision(2) << product->getPrice() << endl;
-    cout << "Remaining balance: R" << state->customerBalance << endl;
-
-    waitForUser();
+    delete product;
+    waitForEnter();
 }
 
-void customerCreateArrangement() {
+/**
+ * @brief Demonstrates Builder Pattern
+ * Shows complex object construction
+ */
+void demo11_Builder() {
     clearScreen();
-    printHeader("CREATE PLANT ARRANGEMENT");
-    cout << "\nBuilder Pattern: Building custom arrangements\n" << endl;
+    printHeader("PATTERN 11: BUILDER");
+    printPatternHeader("BUILDER PATTERN");
 
-    cout << "Select arrangement type:" << endl;
-    cout << "1. Gift Arrangement (Romantic theme with roses)" << endl;
-    cout << "2. Landscape Arrangement (Outdoor garden theme)" << endl;
+    cout << "\nThe Builder Pattern separates the construction of a complex object\n";
+    cout << "from its representation, allowing the same process to create different types.\n";
 
-    int choice = getMenuChoice(1, 2);
+    if (plants.size() < 3) {
+        cout << "\nNeed at least 3 plants! Run Factory demo first." << endl;
+        waitForEnter();
+        return;
+    }
 
+    cout << "\nArrangement Types:" << endl;
+    cout << "1. Gift Arrangement (romantic roses in decorative basket)" << endl;
+    cout << "2. Landscape Arrangement (outdoor garden mix)" << endl;
+
+    int choice = getChoice(1, 2);
+
+    PlantArrangementBuilder* builder = nullptr;
     ArrangementDirector director;
-    PlantArrangement* arrangement = nullptr;
 
     if (choice == 1) {
-        GiftArrangementBuilder* builder = new GiftArrangementBuilder();
-        director.setBuilder(builder);
-        cout << "\n[BUILDER PATTERN: Gift Arrangement]" << endl;
-        arrangement = director.constructDeluxeArrangement();
-        delete builder;
+        builder = new GiftArrangementBuilder();
+        cout << "\nBuilding GIFT ARRANGEMENT...\n" << endl;
     } else {
-        LandscapeArrangementBuilder* builder = new LandscapeArrangementBuilder();
-        director.setBuilder(builder);
-        cout << "\n[BUILDER PATTERN: Landscape Arrangement]" << endl;
-        arrangement = director.constructSimpleArrangement();
-        delete builder;
+        builder = new LandscapeArrangementBuilder();
+        cout << "\nBuilding LANDSCAPE ARRANGEMENT...\n" << endl;
     }
 
-    cout << "\nArrangement created successfully!" << endl;
+    // Set available plants
+    if (choice == 1) {
+        GiftArrangementBuilder* giftBuilder = static_cast<GiftArrangementBuilder*>(builder);
+        giftBuilder->setAvailablePlants(plants);
+    } else {
+        LandscapeArrangementBuilder* landscapeBuilder = static_cast<LandscapeArrangementBuilder*>(builder);
+        landscapeBuilder->setAvailablePlants(plants);
+    }
+
+    // Use director to construct
+    director.setBuilder(builder);
+
+    cout << "Choose arrangement complexity:" << endl;
+    cout << "1. Simple Arrangement" << endl;
+    cout << "2. Deluxe Arrangement" << endl;
+
+    int complexity = getChoice(1, 2);
+
+    PlantArrangement* arrangement = nullptr;
+    if (complexity == 1) {
+        arrangement = director.constructSimpleArrangement();
+    } else {
+        arrangement = director.constructDeluxeArrangement();
+    }
+
+    cout << "\nArrangement created successfully!\n" << endl;
     arrangement->display();
 
-    double cost = arrangement->getTotalPrice();
+    cout << "\nBuilder Pattern Benefits:" << endl;
+    cout << "- Separates construction from representation" << endl;
+    cout << "- Allows step-by-step construction" << endl;
+    cout << "- Same construction process creates different products" << endl;
 
-    if (cost > state->customerBalance) {
-        cout << "\nInsufficient funds! Arrangement not purchased." << endl;
-        delete arrangement;
-    } else {
-        state->customerBalance -= cost;
-        cout << "\nPurchase successful!" << endl;
-        cout << "Remaining balance: R" << fixed << setprecision(2) << state->customerBalance << endl;
-        delete arrangement;
-    }
-
-    waitForUser();
-}
-
-void customerViewCart() {
-    clearScreen();
-    printHeader("YOUR SHOPPING CART");
-
-    if (state->customerCart.empty()) {
-        cout << "\nYour cart is empty." << endl;
-    } else {
-        cout << "\nItems in cart:\n" << endl;
-        double total = 0.0;
-        int count = 1;
-
-        for (auto product : state->customerCart) {
-            cout << count++ << ". ";
-            product->display();
-            cout << "   Price: R" << fixed << setprecision(2) << product->getPrice() << "\n" << endl;
-            total += product->getPrice();
-        }
-
-        cout << "Total spent: R" << fixed << setprecision(2) << total << endl;
-    }
-
-    cout << "Current balance: R" << fixed << setprecision(2) << state->customerBalance << endl;
-    waitForUser();
-}
-
-void customerMenu() {
-    while (true) {
-        clearScreen();
-        printHeader("CUSTOMER PORTAL");
-        cout << "\nWelcome to NJD Films Greenhouse!" << endl;
-        cout << "Your balance: R" << fixed << setprecision(2) << state->customerBalance << endl;
-        cout << "\n1. Browse Plants" << endl;
-        cout << "2. Purchase Plant (with Decorations)" << endl;
-        cout << "3. Create Custom Arrangement (Builder)" << endl;
-        cout << "4. View Shopping Cart" << endl;
-        cout << "5. Back to Main Menu" << endl;
-
-        int choice = getMenuChoice(1, 5);
-
-        switch (choice) {
-            case 1: customerBrowsePlants(); break;
-            case 2: customerBuyPlant(); break;
-            case 3: customerCreateArrangement(); break;
-            case 4: customerViewCart(); break;
-            case 5: return;
-        }
-    }
+    delete arrangement;
+    delete builder;
+    waitForEnter();
 }
 
 // ==================== MAIN MENU ====================
 
-void mainMenu() {
-    while (true) {
-        clearScreen();
-        printHeader("NJD FILMS GREENHOUSE MANAGEMENT SYSTEM");
-        cout << "\nInteractive Demo - All 11 Design Patterns" << endl;
-        cout << "\nSelect your role:" << endl;
-        cout << "1. Staff Member (Manage greenhouse operations)" << endl;
-        cout << "2. Customer (Browse and purchase plants)" << endl;
-        cout << "3. Exit" << endl;
+void displayMainMenu() {
+    clearScreen();
+    printHeader("NJD FILMS GREENHOUSE");
+    cout << "\nDesign Patterns Demonstration System" << endl;
+    cout << "\nCreational Patterns:" << endl;
+    cout << " 1. Factory Pattern      - Plant creation" << endl;
+    cout << " 2. Prototype Pattern    - Plant cloning" << endl;
+    cout << " 3. Builder Pattern      - Arrangement construction" << endl;
 
-        int choice = getMenuChoice(1, 3);
+    cout << "\nStructural Patterns:" << endl;
+    cout << " 4. Composite Pattern    - Greenhouse hierarchy" << endl;
+    cout << " 5. Decorator Pattern    - Product customization" << endl;
+    cout << " 6. Adapter Pattern      - Legacy system integration" << endl;
 
-        switch (choice) {
-            case 1:
-                staffMenu();
-                break;
-            case 2:
-                customerMenu();
-                break;
-            case 3:
-                cout << "\nThank you for using NJD Films Greenhouse System!" << endl;
-                return;
-        }
-    }
+    cout << "\nBehavioral Patterns:" << endl;
+    cout << " 7. Iterator Pattern     - Inventory traversal" << endl;
+    cout << " 8. Template Pattern     - Standardized care routines" << endl;
+    cout << " 9. Strategy Pattern     - Watering strategies" << endl;
+    cout << "10. State Pattern        - Lifecycle management" << endl;
+    cout << "11. Command Pattern      - Task scheduling" << endl;
+
+    cout << "\n 0. Exit" << endl;
 }
 
 // ==================== MAIN ====================
 
 int main() {
-    state = new GreenhouseState();
+    cout << "================================================" << endl;
+    cout << "   NJD FILMS GREENHOUSE MANAGEMENT SYSTEM" << endl;
+    cout << "   COS 214 Project - Design Patterns Showcase" << endl;
+    cout << "================================================" << endl;
 
-    try {
-        initializeGreenhouse();
-        mainMenu();
-    } catch (const exception& e) {
-        cerr << "\nError: " << e.what() << endl;
+    waitForEnter();
+
+    while (true) {
+        displayMainMenu();
+        int choice = getChoice(0, 11);
+
+        switch (choice) {
+            case 1:  demo01_Factory(); break;
+            case 2:  demo02_Prototype(); break;
+            case 3:  demo11_Builder(); break;
+            case 4:  demo03_Composite(); break;
+            case 5:  demo10_Decorator(); break;
+            case 6:  demo08_Adapter(); break;
+            case 7:  demo04_Iterator(); break;
+            case 8:  demo05_Template(); break;
+            case 9:  demo06_Strategy(); break;
+            case 10: demo07_State(); break;
+            case 11: demo09_Command(); break;
+            case 0:
+                cout << "\nThank you for using NJD Films Greenhouse System!" << endl;
+
+                // Cleanup
+                for (Plant* plant : plants) delete plant;
+                delete greenhouse;
+                delete inventory;
+
+                return 0;
+        }
     }
-
-    delete state;
 
     return 0;
 }
