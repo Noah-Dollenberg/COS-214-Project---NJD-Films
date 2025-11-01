@@ -92,6 +92,11 @@ using namespace std;
 #include "Builder - Plant Bundle Creator/LandscapeArrangementBuilder.h"
 #include "Builder - Plant Bundle Creator/ArrangementDirector.h"
 
+// Prototype Pattern
+#include "Prototype - Plant Propogation/NurseryManager.h"
+#include "Prototype - Plant Propogation/RosePrototype.h"
+#include "Prototype - Plant Propogation/SucculentPrototype.h"
+
 // ==================== UTILITY FUNCTIONS ====================
 
 void clearScreen() {
@@ -129,8 +134,37 @@ int getMenuChoice(int min, int max) {
         }
         cin.clear();
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
-        cout << "Invalid input. Please try again." << endl;
+        cout << "⚠ Invalid input. Please try again." << endl;
     }
+}
+
+void showPatternSummary() {
+    clearScreen();
+    printHeader("DESIGN PATTERNS OVERVIEW");
+
+    cout << "\nThis system demonstrates 11 Design Patterns:\n" << endl;
+
+    cout << "CREATIONAL PATTERNS:" << endl;
+    cout << "  1. Factory Method - Create different plant types" << endl;
+    cout << "  2. Prototype      - Clone/propagate existing plants" << endl;
+    cout << "  3. Builder        - Build complex plant arrangements" << endl;
+
+    cout << "\nSTRUCTURAL PATTERNS:" << endl;
+    cout << "  4. Adapter        - Integrate legacy watering systems" << endl;
+    cout << "  5. Composite      - Hierarchical greenhouse structure" << endl;
+    cout << "  6. Decorator      - Add features to plants (pot, wrapping, card)" << endl;
+
+    cout << "\nBEHAVIORAL PATTERNS:" << endl;
+    cout << "  7. Command        - Queue and execute staff tasks" << endl;
+    cout << "  8. Iterator       - Traverse plant inventory" << endl;
+    cout << "  9. State          - Manage plant lifecycle states" << endl;
+    cout << "  10. Strategy      - Different watering strategies" << endl;
+    cout << "  11. Template      - Standardized care routines" << endl;
+
+    cout << "\n" << string(50, '=') << endl;
+    cout << "Navigate through Staff and Customer portals to see each pattern in action!" << endl;
+
+    waitForUser();
 }
 
 // ==================== GLOBAL STATE ====================
@@ -287,43 +321,85 @@ void staffViewInventory() {
 void staffPropagatePlant() {
     clearScreen();
     printHeader("PLANT PROPAGATION");
-    cout << "\nPrototype Pattern: Cloning plants for propagation\n" << endl;
+    cout << "\nPrototype Pattern: Two ways to clone plants\n" << endl;
 
-    staffViewInventory();
+    cout << "Choose propagation method:" << endl;
+    cout << "1. Direct Clone (clone specific plant by ID)" << endl;
+    cout << "2. Nursery Manager (clone from prototype registry)" << endl;
+    cout << "3. Back to menu" << endl;
 
-    cout << "\nEnter the Plant ID to propagate: ";
-    int id;
-    cin >> id;
-    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    int method = getMenuChoice(1, 3);
 
-    Plant* original = nullptr;
-    for (auto plant : state->allPlants) {
-        if (plant->getPlantId() == id) {
-            original = plant;
-            break;
+    if (method == 3) return;
+
+    if (method == 1) {
+        // Original direct cloning method
+        staffViewInventory();
+
+        cout << "\nEnter the Plant ID to propagate: ";
+        int id;
+        cin >> id;
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+        Plant* original = nullptr;
+        for (auto plant : state->allPlants) {
+            if (plant->getPlantId() == id) {
+                original = plant;
+                break;
+            }
+        }
+
+        if (!original) {
+            cout << "\nPlant not found!" << endl;
+            waitForUser();
+            return;
+        }
+
+        // Clone using Prototype Pattern
+        Plant* clone = original->clone();
+        clone->setPlantId(state->allPlants.size() + 1);
+        clone->setReadyForSale(false);
+        clone->setHealthLevel(80);
+
+        state->allPlants.push_back(clone);
+        state->inventory->addPlant(clone);
+
+        cout << "\n[PROTOTYPE PATTERN - Direct Clone]" << endl;
+        cout << "✓ Successfully propagated " << original->getSpecies() << "!" << endl;
+        cout << "  Original ID: " << original->getPlantId() << endl;
+        cout << "  Clone ID: " << clone->getPlantId() << endl;
+        cout << "\nThe clone will be ready for sale after maturation." << endl;
+
+    } else {
+        // Nursery Manager method
+        cout << "\n[PROTOTYPE PATTERN - Nursery Manager Registry]" << endl;
+        cout << "Creating prototype registry with mother plants...\n" << endl;
+
+        NurseryManager nursery;
+        nursery.addPrototype(new RosePrototype());
+        nursery.addPrototype(new SucculentPrototype());
+
+        cout << "✓ Registered Rose prototype" << endl;
+        cout << "✓ Registered Succulent prototype\n" << endl;
+
+        cout << "Available prototypes to clone:" << endl;
+        cout << "1. Rose" << endl;
+        cout << "2. Succulent" << endl;
+
+        int protoChoice = getMenuChoice(1, 2);
+        string type = (protoChoice == 1) ? "Rose" : "Succulent";
+
+        PlantPrototype* clonedProto = nursery.clonePrototype(type);
+
+        if (clonedProto) {
+            cout << "\n✓ Successfully cloned " << type << " from prototype registry!" << endl;
+            cout << "  Clone Health: " << clonedProto->getPlantHealth() << "%" << endl;
+            cout << "\nNursery Manager Pattern allows cloning without knowing specific plant instances." << endl;
+            delete clonedProto;
+        } else {
+            cout << "\n✗ Failed to clone prototype!" << endl;
         }
     }
-
-    if (!original) {
-        cout << "\nPlant not found!" << endl;
-        waitForUser();
-        return;
-    }
-
-    // Clone using Prototype Pattern
-    Plant* clone = original->clone();
-    clone->setPlantId(state->allPlants.size() + 1);
-    clone->setReadyForSale(false); // New clones need time to mature
-    clone->setHealthLevel(80); // Start with good health
-
-    state->allPlants.push_back(clone);
-    state->inventory->addPlant(clone);
-
-    cout << "\n[PROTOTYPE PATTERN]" << endl;
-    cout << "Successfully propagated " << original->getSpecies() << "!" << endl;
-    cout << "Original ID: " << original->getPlantId() << endl;
-    cout << "Clone ID: " << clone->getPlantId() << endl;
-    cout << "\nThe clone will be ready for sale after maturation." << endl;
 
     waitForUser();
 }
@@ -481,22 +557,49 @@ void staffScheduleTasks() {
     PlantCareStaff* careStaff = new PlantCareStaff("John");
     SalesStaff* salesStaff = new SalesStaff("Sarah");
 
-    cout << "Creating staff task schedule...\n" << endl;
+    cout << "Build your task schedule for today:\n" << endl;
+    cout << "Available tasks:" << endl;
+    cout << "1. Water Plants" << endl;
+    cout << "2. Fertilize Plants" << endl;
+    cout << "3. Prune Plants" << endl;
+    cout << "4. Assist Customer" << endl;
+    cout << "5. Finish scheduling and execute" << endl;
 
-    // Create commands
-    WaterPlantsCommand* waterCmd = new WaterPlantsCommand(careStaff);
-    FertilizePlantsCommand* fertilizeCmd = new FertilizePlantsCommand(careStaff);
-    PrunePlantsCommand* pruneCmd = new PrunePlantsCommand(careStaff);
+    bool scheduling = true;
+    int taskCount = 0;
 
-    scheduler.addCommand(waterCmd);
-    scheduler.addCommand(fertilizeCmd);
-    scheduler.addCommand(pruneCmd);
+    while (scheduling) {
+        cout << "\nSelect task to add (or 5 to execute): ";
+        int choice = getMenuChoice(1, 5);
 
-    cout << "[COMMAND PATTERN]" << endl;
-    cout << "Executing scheduled tasks...\n" << endl;
+        if (choice == 1) {
+            scheduler.addCommand(new WaterPlantsCommand(careStaff));
+            cout << "✓ Added: Water Plants task" << endl;
+            taskCount++;
+        } else if (choice == 2) {
+            scheduler.addCommand(new FertilizePlantsCommand(careStaff));
+            cout << "✓ Added: Fertilize Plants task" << endl;
+            taskCount++;
+        } else if (choice == 3) {
+            scheduler.addCommand(new PrunePlantsCommand(careStaff));
+            cout << "✓ Added: Prune Plants task" << endl;
+            taskCount++;
+        } else if (choice == 4) {
+            scheduler.addCommand(new AssistCustomerCommand(salesStaff));
+            cout << "✓ Added: Assist Customer task" << endl;
+            taskCount++;
+        } else {
+            scheduling = false;
+        }
+    }
+
+    cout << "\n" << string(50, '=') << endl;
+    cout << "[COMMAND PATTERN] - Executing " << taskCount << " scheduled tasks..." << endl;
+    cout << string(50, '=') << "\n" << endl;
+
     scheduler.executeCommands();
 
-    cout << "\nAll tasks completed successfully!" << endl;
+    cout << "\n✓ All " << taskCount << " tasks completed successfully!" << endl;
 
     delete careStaff;
     delete salesStaff;
@@ -507,15 +610,30 @@ void staffMenu() {
     while (true) {
         clearScreen();
         printHeader("STAFF MEMBER PORTAL");
-        cout << "\nWelcome, Staff Member! Current Season: " << state->currentSeason << endl;
-        cout << "\n1. View Store Layout (Composite)" << endl;
-        cout << "2. View Inventory (Iterator)" << endl;
-        cout << "3. Propagate Plant (Prototype)" << endl;
-        cout << "4. Perform Care Routine (Template)" << endl;
-        cout << "5. Water Plants (Strategy)" << endl;
-        cout << "6. Manage Plant Lifecycle (State)" << endl;
-        cout << "7. Use Legacy Watering System (Adapter)" << endl;
-        cout << "8. Schedule Staff Tasks (Command)" << endl;
+        cout << "\n🌱 Welcome, Staff Member! Current Season: " << state->currentSeason << endl;
+        cout << "   Total Plants in Inventory: " << state->allPlants.size() << endl;
+
+        cout << "\n" << string(50, '-') << endl;
+        cout << "INVENTORY & VIEWING:" << endl;
+        cout << string(50, '-') << endl;
+        cout << "1. View Store Layout      [Composite Pattern]" << endl;
+        cout << "2. View Inventory         [Iterator Pattern]" << endl;
+
+        cout << "\n" << string(50, '-') << endl;
+        cout << "PLANT MANAGEMENT:" << endl;
+        cout << string(50, '-') << endl;
+        cout << "3. Propagate Plant        [Prototype Pattern]" << endl;
+        cout << "4. Perform Care Routine   [Template Pattern]" << endl;
+        cout << "5. Water Plants           [Strategy Pattern]" << endl;
+        cout << "6. Manage Lifecycle       [State Pattern]" << endl;
+
+        cout << "\n" << string(50, '-') << endl;
+        cout << "SYSTEMS & TASKS:" << endl;
+        cout << string(50, '-') << endl;
+        cout << "7. Legacy Watering System [Adapter Pattern]" << endl;
+        cout << "8. Schedule Staff Tasks   [Command Pattern]" << endl;
+
+        cout << "\n" << string(50, '-') << endl;
         cout << "9. Back to Main Menu" << endl;
 
         int choice = getMenuChoice(1, 9);
@@ -595,24 +713,55 @@ void customerBuyPlant() {
     // Create basic plant product
     PlantProduct* product = new BasicPlant(plant);
 
-    cout << "\nWould you like to add decorations?" << endl;
-    cout << "1. Just the plant (R0)" << endl;
-    cout << "2. Add Decorative Pot (+R50)" << endl;
-    cout << "3. Add Gift Wrapping (+R25)" << endl;
-    cout << "4. Add Both Pot & Wrapping (+R75)" << endl;
+    cout << "\n[DECORATOR PATTERN] - Customize your plant!" << endl;
+    cout << "\nAvailable decorations (you can add multiple):" << endl;
+    cout << "============================================" << endl;
 
-    int choice = getMenuChoice(1, 4);
+    bool addingDecorations = true;
+    while (addingDecorations) {
+        cout << "\n1. Decorative Pot (+R50)" << endl;
+        cout << "2. Gift Wrapping (+R25)" << endl;
+        cout << "3. Greeting Card (+R15)" << endl;
+        cout << "4. Finish and checkout" << endl;
+        cout << "5. Cancel purchase" << endl;
 
-    cout << "\n[DECORATOR PATTERN]" << endl;
+        int choice = getMenuChoice(1, 5);
 
-    if (choice == 2 || choice == 4) {
-        product = new DecorativePotDecorator(product);
-        cout << "Added: Decorative Pot" << endl;
+        if (choice == 1) {
+            product = new DecorativePotDecorator(product);
+            cout << "\n✓ Added: Decorative Pot (+R50)" << endl;
+            cout << "Current total: R" << fixed << setprecision(2) << product->getPrice() << endl;
+        } else if (choice == 2) {
+            product = new GiftWrappingDecorator(product);
+            cout << "\n✓ Added: Gift Wrapping (+R25)" << endl;
+            cout << "Current total: R" << fixed << setprecision(2) << product->getPrice() << endl;
+        } else if (choice == 3) {
+            product = new GreetingCardDecorator(product);
+            cout << "\n✓ Added: Greeting Card (+R15)" << endl;
+            cout << "Current total: R" << fixed << setprecision(2) << product->getPrice() << endl;
+        } else if (choice == 4) {
+            addingDecorations = false;
+        } else {
+            delete product;
+            cout << "\nPurchase cancelled." << endl;
+            waitForUser();
+            return;
+        }
+
+        if (product->getPrice() > state->customerBalance) {
+            cout << "\n⚠ Warning: Total exceeds your balance!" << endl;
+            cout << "Balance: R" << state->customerBalance << endl;
+        }
     }
-    if (choice == 3 || choice == 4) {
-        product = new GiftWrappingDecorator(product);
-        cout << "Added: Gift Wrapping" << endl;
+
+    if (product->getPrice() > state->customerBalance) {
+        cout << "\nInsufficient funds for this configuration!" << endl;
+        delete product;
+        waitForUser();
+        return;
     }
+
+    cout << "\n" << string(50, '=') << endl;
 
     state->customerCart.push_back(product);
     state->customerBalance -= product->getPrice();
@@ -627,43 +776,83 @@ void customerBuyPlant() {
 void customerCreateArrangement() {
     clearScreen();
     printHeader("CREATE PLANT ARRANGEMENT");
-    cout << "\nBuilder Pattern: Building custom arrangements\n" << endl;
+    cout << "\n[BUILDER PATTERN] - Build custom plant arrangements\n" << endl;
 
     cout << "Select arrangement type:" << endl;
-    cout << "1. Gift Arrangement (Romantic theme with roses)" << endl;
-    cout << "2. Landscape Arrangement (Outdoor garden theme)" << endl;
+    cout << "1. Gift Arrangement (Romantic theme)" << endl;
+    cout << "2. Landscape Arrangement (Outdoor garden)" << endl;
+    cout << "3. Back to menu" << endl;
 
-    int choice = getMenuChoice(1, 2);
+    int typeChoice = getMenuChoice(1, 3);
+    if (typeChoice == 3) return;
 
     ArrangementDirector director;
     PlantArrangement* arrangement = nullptr;
 
-    if (choice == 1) {
+    if (typeChoice == 1) {
+        // Gift Arrangement
+        cout << "\nGift Arrangement Options:" << endl;
+        cout << "1. Simple (Basic romantic arrangement)" << endl;
+        cout << "2. Deluxe (Premium romantic arrangement)" << endl;
+
+        int sizeChoice = getMenuChoice(1, 2);
+
         GiftArrangementBuilder* builder = new GiftArrangementBuilder();
         director.setBuilder(builder);
-        cout << "\n[BUILDER PATTERN: Gift Arrangement]" << endl;
-        arrangement = director.constructDeluxeArrangement();
+
+        if (sizeChoice == 1) {
+            cout << "\n[BUILDER PATTERN: Simple Gift Arrangement]" << endl;
+            arrangement = director.constructSimpleArrangement();
+        } else {
+            cout << "\n[BUILDER PATTERN: Deluxe Gift Arrangement]" << endl;
+            arrangement = director.constructDeluxeArrangement();
+        }
         delete builder;
+
     } else {
+        // Landscape Arrangement
+        cout << "\nLandscape Arrangement Options:" << endl;
+        cout << "1. Simple (Basic garden setup)" << endl;
+        cout << "2. Deluxe (Premium garden design)" << endl;
+
+        int sizeChoice = getMenuChoice(1, 2);
+
         LandscapeArrangementBuilder* builder = new LandscapeArrangementBuilder();
         director.setBuilder(builder);
-        cout << "\n[BUILDER PATTERN: Landscape Arrangement]" << endl;
-        arrangement = director.constructSimpleArrangement();
+
+        if (sizeChoice == 1) {
+            cout << "\n[BUILDER PATTERN: Simple Landscape Arrangement]" << endl;
+            arrangement = director.constructSimpleArrangement();
+        } else {
+            cout << "\n[BUILDER PATTERN: Deluxe Landscape Arrangement]" << endl;
+            arrangement = director.constructDeluxeArrangement();
+        }
         delete builder;
     }
 
-    cout << "\nArrangement created successfully!" << endl;
+    cout << "\n" << string(50, '=') << endl;
+    cout << "Arrangement Details:" << endl;
+    cout << string(50, '=') << endl;
     arrangement->display();
 
     double cost = arrangement->getTotalPrice();
+    cout << "\nTotal Price: R" << fixed << setprecision(2) << cost << endl;
+    cout << "Your Balance: R" << state->customerBalance << endl;
 
     if (cost > state->customerBalance) {
-        cout << "\nInsufficient funds! Arrangement not purchased." << endl;
+        cout << "\n✗ Insufficient funds! Arrangement not purchased." << endl;
         delete arrangement;
     } else {
-        state->customerBalance -= cost;
-        cout << "\nPurchase successful!" << endl;
-        cout << "Remaining balance: R" << fixed << setprecision(2) << state->customerBalance << endl;
+        cout << "\nConfirm purchase? (1=Yes, 2=No): ";
+        int confirm = getMenuChoice(1, 2);
+
+        if (confirm == 1) {
+            state->customerBalance -= cost;
+            cout << "\n✓ Purchase successful!" << endl;
+            cout << "Remaining balance: R" << fixed << setprecision(2) << state->customerBalance << endl;
+        } else {
+            cout << "\nPurchase cancelled." << endl;
+        }
         delete arrangement;
     }
 
@@ -699,12 +888,19 @@ void customerMenu() {
     while (true) {
         clearScreen();
         printHeader("CUSTOMER PORTAL");
-        cout << "\nWelcome to NJD Films Greenhouse!" << endl;
-        cout << "Your balance: R" << fixed << setprecision(2) << state->customerBalance << endl;
-        cout << "\n1. Browse Plants" << endl;
-        cout << "2. Purchase Plant (with Decorations)" << endl;
-        cout << "3. Create Custom Arrangement (Builder)" << endl;
+        cout << "\n🛒 Welcome to NJD Films Greenhouse!" << endl;
+        cout << "   Your Balance: R" << fixed << setprecision(2) << state->customerBalance << endl;
+        cout << "   Items in Cart: " << state->customerCart.size() << endl;
+
+        cout << "\n" << string(50, '-') << endl;
+        cout << "SHOPPING:" << endl;
+        cout << string(50, '-') << endl;
+        cout << "1. Browse Plants              [Factory Pattern products]" << endl;
+        cout << "2. Purchase Plant             [Decorator Pattern]" << endl;
+        cout << "3. Create Custom Arrangement  [Builder Pattern]" << endl;
         cout << "4. View Shopping Cart" << endl;
+
+        cout << "\n" << string(50, '-') << endl;
         cout << "5. Back to Main Menu" << endl;
 
         int choice = getMenuChoice(1, 5);
@@ -725,13 +921,26 @@ void mainMenu() {
     while (true) {
         clearScreen();
         printHeader("NJD FILMS GREENHOUSE MANAGEMENT SYSTEM");
-        cout << "\nInteractive Demo - All 11 Design Patterns" << endl;
-        cout << "\nSelect your role:" << endl;
-        cout << "1. Staff Member (Manage greenhouse operations)" << endl;
-        cout << "2. Customer (Browse and purchase plants)" << endl;
-        cout << "3. Exit" << endl;
+        cout << "\n🌿 Interactive Demo - All 11 Design Patterns 🌿" << endl;
+        cout << "\n   Experience a complete greenhouse management system" << endl;
+        cout << "   demonstrating Gang of Four design patterns!\n" << endl;
 
-        int choice = getMenuChoice(1, 3);
+        cout << string(50, '=') << endl;
+        cout << "SELECT YOUR ROLE:" << endl;
+        cout << string(50, '=') << endl;
+        cout << "\n1. 👨‍🌾 Staff Member Portal" << endl;
+        cout << "   Manage greenhouse operations, care for plants," << endl;
+        cout << "   and execute daily tasks\n" << endl;
+
+        cout << "2. 🛍️  Customer Portal" << endl;
+        cout << "   Browse plants, create arrangements," << endl;
+        cout << "   and customize your purchases\n" << endl;
+
+        cout << "3. ℹ️  View Design Patterns Summary\n" << endl;
+
+        cout << "4. 🚪 Exit System" << endl;
+
+        int choice = getMenuChoice(1, 4);
 
         switch (choice) {
             case 1:
@@ -741,7 +950,11 @@ void mainMenu() {
                 customerMenu();
                 break;
             case 3:
-                cout << "\nThank you for using NJD Films Greenhouse System!" << endl;
+                showPatternSummary();
+                break;
+            case 4:
+                cout << "\n✓ Thank you for using NJD Films Greenhouse System!" << endl;
+                cout << "  All 11 design patterns demonstrated successfully.\n" << endl;
                 return;
         }
     }
