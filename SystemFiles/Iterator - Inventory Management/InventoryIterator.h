@@ -9,6 +9,7 @@
 #define INVENTORYITERATOR_H
 #include "PlantIterator.h"
 #include <vector>
+#include <cstddef>
 
 // Forward declarations
 class GreenhouseInventory;

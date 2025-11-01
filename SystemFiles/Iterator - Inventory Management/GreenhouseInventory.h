@@ -9,6 +9,7 @@
 #define GREENHOUSEINVENTORY_H
 #include "PlantCollection.h"
 #include <vector>
+#include <cstddef>
 
 // Forward declarations
 class InventoryIterator;
