@@ -1,0 +1,15 @@
+digraph "Succulent::Succulent"
+{
+ // INTERACTIVE_SVG=YES
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="RL";
+  Node1 [id="Node000001",label="Succulent::Succulent",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="Default constructor."];
+  Node1 -> Node2 [id="edge1_Node000001_Node000002",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node2 [id="Node000002",label="Succulent::clone",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_succulent.html#aba13790424b3479f9731dff504847ea4",tooltip="Clone method for Prototype pattern."];
+  Node1 -> Node1 [id="edge2_Node000001_Node000001",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node1 -> Node3 [id="edge3_Node000001_Node000003",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node3 [id="Node000003",label="Succulent::Succulent",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_succulent.html#ad2859c118244a28be023a0422e116d35",tooltip="Copy constructor."];
+}

@@ -1,0 +1,14 @@
+digraph "InventoryIterator::isDone"
+{
+ // INTERACTIVE_SVG=YES
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="RL";
+  Node1 [id="Node000001",label="InventoryIterator::\lisDone",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="Checks if iteration is complete."];
+  Node1 -> Node2 [id="edge1_Node000001_Node000002",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node2 [id="Node000002",label="InventoryIterator::\lcurrentItem",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_inventory_iterator.html#aed1b7e540b9913c3d206efa670cb5d41",tooltip="Gets the plant at the current position."];
+  Node1 -> Node3 [id="edge2_Node000001_Node000003",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node3 [id="Node000003",label="InventoryIterator::next",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_inventory_iterator.html#acc01b20b3d3aac5e62371046437104b5",tooltip="Advances iterator to the next plant."];
+}

@@ -33,7 +33,7 @@ var NAVTREE =
         [ "All", "functions.html", "functions_dup" ],
         [ "Functions", "functions_func.html", "functions_func" ],
         [ "Variables", "functions_vars.html", null ],
-        [ "Related Functions", "functions_rela.html", null ]
+        [ "Related Symbols", "functions_rela.html", null ]
       ] ]
     ] ],
     [ "Files", "files.html", [
@@ -44,11 +44,12 @@ var NAVTREE =
 
 var NAVTREEINDEX =
 [
-"ArrangementDirector_8cpp.html",
-"classAssistCustomerCommand.html#a14e86fa1cf96d340403c20868f6273b0",
-"classMatureState.html#a84547e22602d385d85b868c4e0dd1a0c",
-"classPlantPrototype.html#ab8c33d6c357d03e31a531c0933c9e6ee"
+"_arrangement_director_8cpp.html",
+"class_assist_customer_command.html#a14e86fa1cf96d340403c20868f6273b0",
+"class_mature_state.html#a84547e22602d385d85b868c4e0dd1a0c",
+"class_plant_prototype.html#ad8a10742780d9f746164d645f14d3246"
 ];
 
-var SYNCONMSG = 'click to disable panel synchronisation';
-var SYNCOFFMSG = 'click to enable panel synchronisation';
+var SYNCONMSG = 'click to disable panel synchronization';
+var SYNCOFFMSG = 'click to enable panel synchronization';
+var LISTOFALLMEMBERS = 'List of all members';

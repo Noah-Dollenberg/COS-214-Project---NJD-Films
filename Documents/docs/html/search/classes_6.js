@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['inventoryiterator_533',['InventoryIterator',['../classInventoryIterator.html',1,'']]],
-  ['inventorymanager_534',['InventoryManager',['../classInventoryManager.html',1,'']]]
+  ['inventoryiterator_0',['InventoryIterator',['../class_inventory_iterator.html',1,'']]],
+  ['inventorymanager_1',['InventoryManager',['../class_inventory_manager.html',1,'']]]
 ];
