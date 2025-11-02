@@ -26,36 +26,6 @@ The NJD Films Greenhouse Management System is a C++ project that simulates a com
 
 ### Building and Running
 
-#### Using CMake 
-```bash
-# Navigate to SystemFiles directory
-cd SystemFiles
-
-# Create and enter build directory
-mkdir build
-cd build
-
-# Configure the project
-cmake ..
-
-# Build the project
-cmake --build .
-```
-
-#### Running the Demo Main
-```bash
-# From the build dir
-./COS_214_Project___NJD_Films          # Linux
-.\COS_214_Project___NJD_Films.exe      # Windows
-```
-
-#### Running Unit Tests
-```bash
-# From the build dir
-./GreenhouseSimulation                 # Linux
-.\GreenhouseSimulation.exe             # Windows
-```
-
 #### Using Makefile
 ```bash
 # Navigate to SystemFiles directory
