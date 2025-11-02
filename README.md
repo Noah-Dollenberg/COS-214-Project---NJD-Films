@@ -73,11 +73,11 @@ make run-test
 
 ## Team
 
-| Member | Student Number | Roles | Description |
-|--------|---------------|-------|-------------|
-| Noah Dollenberg | TBD | TBD | TBD |
-| Dillon Koekemoer | u23537052 | Builder, Decorator, Unit Testin, Class Diagram, Attempt at the GUI | Who decided that? I will be the one to decide !  |
-| Dylan McRobbie | u24646866 | State, Prototype, demo main, Sequence Diagram | You met me at a very strange time in my life -"Where is my mind?" starts playing |
-| David Potgieter | u04579624 | Template, Strategy, functional requirements doc, Activity Diagram | You merely adopted the dark, I was born in it, molded by it  |
-| Joshua Roberts | u23536765 | Composite, Iterator, Command, Class Diagram | TONIGHTS THE NIGHT |
+| Profile | Member | Student Number | Roles | Description |
+|---------|--------|---------------|-------|-------------|
+| TBD | Noah Dollenberg | TBD | TBD | TBD |
+| <img src="DataFiles/Profile-Images/Dillon-Koekemoer.jpg" width="80" height="80"> | Dillon Koekemoer | u23537052 | Builder, Decorator, Unit Testin, Class Diagram, Attempt at the GUI | Who decided that? I will be the one to decide !  |
+| <img src="DataFiles/Profile-Images/Dylan-Mcrobbie.jpg" width="80" height="80"> | Dylan McRobbie | u24646866 | State, Prototype, demo main, Sequence Diagram | You met me at a very strange time in my life -"Where is my mind?" starts playing |
+| <img src="DataFiles/Profile-Images/David-Potgieter.jpg" width="80" height="80"> | David Potgieter | u04579624 | Template, Strategy, functional requirements doc, Activity Diagram | You merely adopted the dark, I was born in it, molded by it  |
+| <img src="DataFiles/Profile-Images/Joshua-Roberts.jpg" width="80" height="80"> | Joshua Roberts | u23536765 | Composite, Iterator, Command, Class Diagram | TONIGHTS THE NIGHT |
 
