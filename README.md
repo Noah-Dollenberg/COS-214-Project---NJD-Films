@@ -48,10 +48,8 @@ make clean
 
 | Profile | Member | Student Number | Roles | Description |
 |---------|--------|---------------|-------|-------------|
-| <img src="DataFiles/Profile-Images/Noah-Dollenberg.jpg" width="150" height="150">| Noah Dollenberg | u24596142 | Factory, Adapter, Communication Diagram, Powerpoint  | Not sure what I'm supposed to be doing here(I want that to be my description) |
-| <img src="DataFiles/Profile-Images/Dillon-Koekemoer.jpg" width="150" height="150"> | Dillon Koekemoer | u23537052 | Builder, Decorator, Plant, Unit Testing, Class Diagram, Attempt at the GUI | Who decided that? I will be the one to decide !  |
-| <img src="DataFiles/Profile-Images/Joshua-Roberts.jpg" width="150" height="150"> | Joshua Roberts | u23536765 | Composite, Iterator, Command, Class Diagram | TONIGHTS THE NIGHT |
-| <img src="DataFiles/Profile-Images/Dylan-Mcrobbie.jpg" width="150" height="150"> | Dylan McRobbie | u24646866 | State, Prototype, demo main, Sequence Diagram | You met me at a very strange time in my life -"Where is my mind?" starts playing |
-| <img src="DataFiles/Profile-Images/David-Potgieter.jpg" width="150" height="150"> | David Potgieter | u04579624 | Template, Strategy, functional requirements doc, Activity + State Diagram | You merely adopted the dark, I was born in it, molded by it  |
-| <img src="DataFiles/Profile-Images/Joshua-Roberts.jpg" width="150" height="150"> | Joshua Roberts | u23536765 | Composite, Iterator, Command, Class Diagram | TONIGHTS THE NIGHT |
-
+| <img src="DataFiles/Profile-Images/Noah-Dollenberg.jpg" width="200" height="200">| Noah Dollenberg | u24596142 | Factory, Adapter, Communication Diagram, Powerpoint  | Not sure what I'm supposed to be doing here(I want that to be my description) |
+| <img src="DataFiles/Profile-Images/Dillon-Koekemoer.jpg" width="200" height="200"> | Dillon Koekemoer | u23537052 | Builder, Decorator, Plant, Unit Testing, Class Diagram, Attempt at the GUI | Who decided that? I will be the one to decide !  |
+| <img src="DataFiles/Profile-Images/Joshua-Roberts.jpg" width="200" height="200"> | Joshua Roberts | u23536765 | Composite, Iterator, Command, Class Diagram | TONIGHTS THE NIGHT |
+| <img src="DataFiles/Profile-Images/Dylan-Mcrobbie.jpg" width="200" height="200"> | Dylan McRobbie | u24646866 | State, Prototype, demo main, Sequence Diagram | You met me at a very strange time in my life -"Where is my mind?" starts playing |
+| <img src="DataFiles/Profile-Images/David-Potgieter.jpg" width="200" height="200"> | David Potgieter | u04579624 | Template, Strategy, functional requirements doc, Activity + State Diagram | You merely adopted the dark, I was born in it, molded by it  |
