@@ -18,6 +18,5 @@ void FloweringState::fertilize(PlantContext* context) {
 
 void FloweringState::checkHealth(PlantContext* context) {
     std::cout << "Checking flowering plant health: Blooms indicate peak health.\n";
-    // Placeholder logic: Transition back to MatureState after flowering
-    // if (/* flowering period ends */) context->setState(new MatureState());
+    //you go to the flower state manually by using the setState() function (PlantsContext class)
 }

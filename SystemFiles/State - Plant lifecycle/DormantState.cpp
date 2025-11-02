@@ -15,6 +15,5 @@ void DormantState::fertilize(PlantContext* context) {
 
 void DormantState::checkHealth(PlantContext* context) {
     std::cout << "Checking dormant plant health: Awaiting active growth season.\n";
-    // Placeholder logic: Transition to GrowingState when conditions improve
-    // if (/* season changes */) context->setState(new GrowingState());
+    //you go to the flower state manually by using the setState() function (PlantsContext class)
 }
