@@ -18,6 +18,5 @@ void MatureState::fertilize(PlantContext* context) {
 
 void MatureState::checkHealth(PlantContext* context) {
     std::cout << "Checking mature plant health: Stable, can transition to Flowering or Dormant.\n";
-    // Placeholder logic: Manual transition for test (e.g., season-based)
-    // For this example, we'll allow manual transition in main.cpp
+    //you go to the flower state manually by using the setState() function (PlantsContext class)
 }
