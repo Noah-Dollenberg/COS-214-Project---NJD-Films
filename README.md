@@ -24,12 +24,6 @@ The NJD Films Greenhouse Management System is a C++ project that simulates a com
 
 ## Setup
 
-### Cloning
-```bash
-git clone https://github.com/your-repo/COS-214-Project---NJD-Films.git
-cd COS-214-Project---NJD-Films
-```
-
 ### Building and Running
 
 #### Using CMake 
@@ -82,8 +76,8 @@ make run-test
 | Member | Student Number | Roles | Description |
 |--------|---------------|-------|-------------|
 | Noah Dollenberg | TBD | TBD | TBD |
-| Dillon Koekemoer | u23537052 | Builder, Decorator, Unit Testin, Class Diagram, Attempt at the gui | I am vengeance  |
-| Dylan McRobbie | u24646866 | State, Prototype, demo main, Sequence Diagram | You met me a very strange time in my life -"Where is my mind?" starts playing |
+| Dillon Koekemoer | u23537052 | Builder, Decorator, Unit Testin, Class Diagram, Attempt at the GUI | Who decided that? I will be the one to decide !  |
+| Dylan McRobbie | u24646866 | State, Prototype, demo main, Sequence Diagram | You met me at a very strange time in my life -"Where is my mind?" starts playing |
 | David Potgieter | u04579624 | Template, Strategy, functional requirements doc, Activity Diagram | You merely adopted the dark, I was born in it, molded by it  |
-| Joshua Roberts | TBD | TBD | TBD |
+| Joshua Roberts | u23536765 | Composite, Iterator, Command, Class Diagram | TONIGHTS THE NIGHT |
 
