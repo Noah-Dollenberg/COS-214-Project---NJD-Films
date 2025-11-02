@@ -30,18 +30,51 @@ git clone https://github.com/your-repo/COS-214-Project---NJD-Films.git
 cd COS-214-Project---NJD-Films
 ```
 
-### Building
-This project can be built using CMake or Makefile:
+### Building and Running
 
+#### Using CMake 
 ```bash
 # Navigate to SystemFiles directory
 cd SystemFiles
 
-# Compilation (add specific commands here)
-# make all
+# Create and enter build directory
+mkdir build
+cd build
 
-# Run the program (add specific commands here)
-# make run
+# Configure the project
+cmake ..
+
+# Build the project
+cmake --build .
+```
+
+#### Running the Demo Main
+```bash
+# From the build dir
+./COS_214_Project___NJD_Films          # Linux
+.\COS_214_Project___NJD_Films.exe      # Windows
+```
+
+#### Running Unit Tests
+```bash
+# From the build dir
+./GreenhouseSimulation                 # Linux
+.\GreenhouseSimulation.exe             # Windows
+```
+
+#### Using Makefile
+```bash
+# Navigate to SystemFiles directory
+cd SystemFiles
+
+# Compile all targets
+make all
+
+# Run demo main
+make run
+
+# Run unit tests
+make run-test
 ```
 
 ## Team
@@ -49,8 +82,8 @@ cd SystemFiles
 | Member | Student Number | Roles | Description |
 |--------|---------------|-------|-------------|
 | Noah Dollenberg | TBD | TBD | TBD |
-| Dillon Koekemoer | u23537052 | Builder, Decorator, Unit Testing | I am vengeance  |
-| Dylan McRobbie | TBD | TBD | TBD |
-| David Potgieter | TBD | TBD | TBD |
+| Dillon Koekemoer | u23537052 | Builder, Decorator, Unit Testin, Class Diagram, Attempt at the gui | I am vengeance  |
+| Dylan McRobbie | u24646866 | State, Prototype, demo main, Sequence Diagram | You met me a very strange time in my life -"Where is my mind?" starts playing |
+| David Potgieter | u04579624 | Template, Strategy, functional requirements doc, Activity Diagram | You merely adopted the dark, I was born in it, molded by it  |
 | Joshua Roberts | TBD | TBD | TBD |
 
