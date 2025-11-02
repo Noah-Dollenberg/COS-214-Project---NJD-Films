@@ -69,6 +69,9 @@ make run
 
 # Run unit tests
 make run-test
+
+# remove all compiled files
+make clean
 ```
 
 ## Team
