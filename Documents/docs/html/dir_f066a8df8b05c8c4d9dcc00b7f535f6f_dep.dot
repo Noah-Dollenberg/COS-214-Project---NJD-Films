@@ -1,0 +1,12 @@
+digraph "Builder - Plant Bundle Creator"
+{
+ // INTERACTIVE_SVG=YES
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  compound=true
+  dir_f066a8df8b05c8c4d9dcc00b7f535f6f [label="Builder - Plant Bundle\l Creator", fillcolor="#edf0f7", color="grey25", style="filled,bold", URL="dir_f066a8df8b05c8c4d9dcc00b7f535f6f.html",tooltip=""];
+  dir_5ed06eff868f77dc127d4670c5cf96f5 [label="Plant - Abstract Base", fillcolor="#edf0f7", color="grey25", style="filled", URL="dir_5ed06eff868f77dc127d4670c5cf96f5.html",tooltip=""];
+  dir_f066a8df8b05c8c4d9dcc00b7f535f6f->dir_5ed06eff868f77dc127d4670c5cf96f5 [headlabel="3", labeldistance=1.5 headhref="dir_000001_000007.html" href="dir_000001_000007.html" color="steelblue1" fontcolor="steelblue1"];
+}

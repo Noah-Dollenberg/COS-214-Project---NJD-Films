@@ -1,0 +1,14 @@
+digraph "BasicPlant::display"
+{
+ // INTERACTIVE_SVG=YES
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="LR";
+  Node1 [id="Node000001",label="BasicPlant::display",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="Displays the basic plant information."];
+  Node1 -> Node2 [id="edge1_Node000001_Node000002",color="steelblue1",style="solid",tooltip=" "];
+  Node2 [id="Node000002",label="BasicPlant::getDescription",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_basic_plant.html#afa56071a54d6a12c7d33ec6fbd8f87d4",tooltip="Gets the description of the basic plant."];
+  Node1 -> Node3 [id="edge2_Node000001_Node000003",color="steelblue1",style="solid",tooltip=" "];
+  Node3 [id="Node000003",label="BasicPlant::getPrice",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_basic_plant.html#aea290cbc6341a910ec7dd854b680e217",tooltip="Gets the price of the basic plant."];
+}
