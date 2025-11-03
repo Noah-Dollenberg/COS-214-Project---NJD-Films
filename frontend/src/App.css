@@ -1,0 +1,618 @@
+* {
+  box-sizing: border-box;
+}
+
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #f8f9fa;
+}
+
+.header {
+  background: linear-gradient(135deg, #1a472a 0%, #2e7d32 50%, #43a047 100%);
+  color: white;
+  padding: 2.5rem 2rem;
+  text-align: center;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  position: relative;
+  overflow: hidden;
+}
+
+.header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><path d="M50 10 L60 30 L80 30 L65 45 L70 65 L50 50 L30 65 L35 45 L20 30 L40 30 Z" fill="white" opacity="0.03"/></svg>') repeat;
+  pointer-events: none;
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 3rem;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  position: relative;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+
+.header p {
+  margin: 0.75rem 0 0 0;
+  opacity: 0.95;
+  font-size: 1.1rem;
+  font-weight: 300;
+  position: relative;
+}
+
+.message-banner {
+  background: #4caf50;
+  color: white;
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  animation: slideDown 0.3s ease;
+  font-size: 1rem;
+  font-weight: 500;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+.message-banner button {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  transition: all 0.3s;
+  border-radius: 4px;
+}
+
+.message-banner button:hover {
+  background: rgba(255,255,255,0.2);
+}
+
+@keyframes slideDown {
+  from { transform: translateY(-100%); }
+  to { transform: translateY(0); }
+}
+
+.pattern-selector {
+  background: white;
+  padding: 2rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  border-bottom: 3px solid #e0e0e0;
+}
+
+.pattern-selector h2 {
+  margin: 0 0 1.5rem 0;
+  color: #1a472a;
+  font-size: 1.5rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.pattern-buttons {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.pattern-buttons button {
+  padding: 1rem 1.25rem;
+  background: white;
+  border: 2px solid #e0e0e0;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  color: green;
+}
+
+.pattern-buttons button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(46, 125, 50, 0.1), transparent);
+  transition: left 0.5s;
+}
+
+.pattern-buttons button:hover::before {
+  left: 100%;
+}
+
+.pattern-buttons button:hover {
+  border-color: #2e7d32;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(46, 125, 50, 0.2);
+}
+
+.pattern-buttons button.active {
+  background: linear-gradient(135deg, #2e7d32 0%, #43a047 100%);
+  color: white !important;
+  border-color: #2e7d32;
+  box-shadow: 0 4px 15px rgba(46, 125, 50, 0.3);
+  transform: translateY(-2px);
+}
+
+.pattern-buttons button.active::before {
+  display: none;
+}
+
+.main-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  padding: 2.5rem;
+  flex: 1;
+  max-width: 1800px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.left-panel, .right-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.pattern-demo, .plant-list, .greenhouse-view {
+  background: white;
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  border: 1px solid #f0f0f0;
+  transition: all 0.3s;
+}
+
+.pattern-demo:hover, .plant-list:hover, .greenhouse-view:hover {
+  box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+  transform: translateY(-2px);
+}
+
+.pattern-demo h2, .plant-list h2, .greenhouse-view h2 {
+  margin: 0 0 1.5rem 0;
+  color: #1a472a;
+  font-size: 1.75rem;
+  font-weight: 600;
+  border-bottom: 3px solid #2e7d32;
+  padding-bottom: 0.75rem;
+}
+
+.demo-content p {
+  color: #444;
+  margin-bottom: 1.5rem;
+  font-size: 1.05rem;
+  line-height: 1.6;
+}
+
+.button-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.plant-button {
+  padding: 1.25rem;
+  background: linear-gradient(135deg, #2e7d32 0%, #43a047 100%);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 15px rgba(46,125,50,0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.plant-button::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.plant-button:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+.plant-button:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 8px 25px rgba(46,125,50,0.35);
+}
+
+.plant-button:active {
+  transform: translateY(-1px) scale(1.02);
+}
+
+.clone-list, .state-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.clone-item, .state-item {
+  background: #f9f9f9;
+  padding: 1.25rem;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid #e0e0e0;
+}
+
+.clone-item span, .state-item h4 {
+  color: #2d3436;
+  font-weight: 500;
+}
+
+.clone-item button {
+  padding: 0.625rem 1.25rem;
+  background: #2196f3;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 0.9rem;
+  transition: all 0.3s;
+}
+
+.clone-item button:hover {
+  background: #1976d2;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(33, 150, 243, 0.3);
+}
+
+.state-item {
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.state-item h4 {
+  margin: 0 0 0.75rem 0;
+  font-size: 1.05rem;
+}
+
+.state-buttons {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.state-button {
+  padding: 0.625rem 1rem;
+  background: #ff9800;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all 0.3s;
+  text-transform: capitalize;
+}
+
+.state-button:hover {
+  background: #f57c00;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 152, 0, 0.3);
+}
+
+.pattern-info {
+  background: #e8f5e9;
+  padding: 1.5rem;
+  border-radius: 8px;
+  text-align: left;
+}
+
+.pattern-info h3 {
+  margin: 0 0 0.75rem 0;
+  color: #1a472a;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.pattern-info ul {
+  margin: 0;
+  padding-left: 1.5rem;
+}
+
+.pattern-info li {
+  margin: 0.5rem 0;
+  color: #2d3436;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.pattern-info p {
+  margin-top: 1rem;
+  color: #2d3436;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.composite-tree {
+  background: #f9f9f9;
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  border: 1px solid #e0e0e0;
+}
+
+.tree-node {
+  padding: 0.625rem;
+  margin: 0.5rem 0;
+  color: #2d3436;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.tree-children {
+  margin-left: 2rem;
+  border-left: 2px solid #2e7d32;
+  padding-left: 1rem;
+}
+
+.warning {
+  background: #fff3cd;
+  color: #6c4a00;
+  padding: 1.25rem;
+  border-radius: 8px;
+  border: 2px solid #ffc107;
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+.empty-state {
+  color: #757575;
+  padding: 2rem;
+  text-align: center;
+  font-size: 1rem;
+  font-style: italic;
+}
+
+.plant-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1.5rem;
+}
+
+.plant-card {
+  background: linear-gradient(135deg, #ffffff 0%, #f1f8e9 100%);
+  border-radius: 16px;
+  padding: 1.5rem;
+  text-align: center;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 2px solid #e8f5e9;
+  position: relative;
+  overflow: hidden;
+}
+
+.plant-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(46,125,50,0.1) 0%, transparent 70%);
+  transform: scale(0);
+  transition: transform 0.6s;
+}
+
+.plant-card:hover::before {
+  transform: scale(1);
+}
+
+.plant-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 12px 35px rgba(46,125,50,0.2);
+  border-color: #2e7d32;
+}
+
+.plant-emoji {
+  font-size: 4rem;
+  margin-bottom: 0.75rem;
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));
+  position: relative;
+  z-index: 1;
+}
+
+.plant-info {
+  position: relative;
+  z-index: 1;
+}
+
+.plant-info h3 {
+  margin: 0.75rem 0 0.5rem 0;
+  color: #1a472a;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.plant-info p {
+  margin: 0.5rem 0;
+  color: #2d3436;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.health-bar {
+  position: relative;
+  height: 20px;
+  background: #e0e0e0;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-top: 0.5rem;
+}
+
+.health-fill {
+  height: 100%;
+  transition: width 0.3s;
+}
+
+.health-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 0.75rem;
+  font-weight: bold;
+  color: white;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+.greenhouse-container {
+  margin: 1rem 0;
+}
+
+.greenhouse-roof {
+  display: flex;
+  justify-content: center;
+  margin-bottom: -1px;
+}
+
+.roof-left, .roof-right {
+  width: 150px;
+  height: 50px;
+  background: #8bc34a;
+}
+
+.roof-left {
+  transform: skewY(-10deg);
+  transform-origin: bottom right;
+}
+
+.roof-right {
+  transform: skewY(10deg);
+  transform-origin: bottom left;
+}
+
+.greenhouse-body {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  background: #f0f4c3;
+  padding: 1.5rem;
+  border-radius: 0 0 12px 12px;
+  border: 3px solid #8bc34a;
+}
+
+.greenhouse-section {
+  background: white;
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+.greenhouse-section h3 {
+  margin: 0 0 1rem 0;
+  text-align: center;
+  color: #1a472a;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.shelf {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+  min-height: 60px;
+}
+
+.plant-slot {
+  width: 40px;
+  height: 40px;
+  background: #e8f5e9;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  cursor: help;
+}
+
+.stats {
+  background: #f5f5f5;
+  padding: 1.25rem;
+  border-radius: 8px;
+  margin-top: 1rem;
+  border: 1px solid #e0e0e0;
+}
+
+.stats p {
+  margin: 0.5rem 0;
+  color: #2d3436;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.footer {
+  background: linear-gradient(135deg, #1a472a 0%, #2e7d32 100%);
+  color: white;
+  padding: 2.5rem 2rem;
+  text-align: center;
+  margin-top: auto;
+  box-shadow: 0 -4px 20px rgba(0,0,0,0.15);
+  position: relative;
+  overflow: hidden;
+}
+
+.footer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="2" fill="white" opacity="0.05"/></svg>') repeat;
+  pointer-events: none;
+}
+
+.footer p {
+  margin: 0.5rem 0;
+  opacity: 0.95;
+  position: relative;
+  font-weight: 300;
+}
+
+@media (max-width: 768px) {
+  .main-content {
+    grid-template-columns: 1fr;
+  }
+
+  .greenhouse-body {
+    grid-template-columns: 1fr;
+  }
+
+  .pattern-buttons {
+    flex-direction: column;
+  }
+
+  .plant-cards {
+    grid-template-columns: 1fr;
+  }
+}
