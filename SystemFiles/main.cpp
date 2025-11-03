@@ -14,6 +14,7 @@
 #include <string>
 #include <limits>
 #include <memory>
+#include <algorithm>
 
 using namespace std;
 
