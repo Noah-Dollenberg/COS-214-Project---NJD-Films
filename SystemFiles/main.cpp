@@ -776,6 +776,13 @@ void customerBuyPlant() {
     state->customerCart.push_back(product);
     state->customerBalance -= product->getPrice();
 
+    // Remove the plant from inventory and allPlants
+    state->inventory->removePlant(plant);
+    auto it = find(state->allPlants.begin(), state->allPlants.end(), plant);
+    if (it != state->allPlants.end()) {
+        state->allPlants.erase(it);
+    }
+
     cout << "\nPurchase successful!" << endl;
     cout << "Total cost: R" << fixed << setprecision(2) << product->getPrice() << endl;
     cout << "Remaining balance: R" << state->customerBalance << endl;
