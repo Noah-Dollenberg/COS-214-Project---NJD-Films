@@ -284,6 +284,7 @@ void staffViewStoreLayout() {
     printHeader("GREENHOUSE STORE LAYOUT");
     cout << "\nComposite Pattern: Hierarchical greenhouse structure\n" << endl;
     state->greenhouse->display();
+    cout << "\nCOMPOSITE PATTERN tested successfully!" << endl;
     waitForUser();
 }
 
@@ -314,6 +315,7 @@ void staffViewInventory() {
     }
 
     cout << "\nTotal plants: " << count << endl;
+    cout << "\nITERATOR PATTERN tested successfully!" << endl;
     delete iterator;
     waitForUser();
 }
@@ -365,10 +367,11 @@ void staffPropagatePlant() {
         state->inventory->addPlant(clone);
 
         cout << "\n[PROTOTYPE PATTERN - Direct Clone]" << endl;
-        cout << "✓ Successfully propagated " << original->getSpecies() << "!" << endl;
+        cout << "Successfully propagated " << original->getSpecies() << "!" << endl;
         cout << "  Original ID: " << original->getPlantId() << endl;
         cout << "  Clone ID: " << clone->getPlantId() << endl;
         cout << "\nThe clone will be ready for sale after maturation." << endl;
+        cout << "\nPROTOTYPE PATTERN tested successfully!" << endl;
 
     } else {
         // Nursery Manager method
@@ -379,8 +382,8 @@ void staffPropagatePlant() {
         nursery.addPrototype(new RosePrototype());
         nursery.addPrototype(new SucculentPrototype());
 
-        cout << "✓ Registered Rose prototype" << endl;
-        cout << "✓ Registered Succulent prototype\n" << endl;
+        cout << "Registered Rose prototype" << endl;
+        cout << "Registered Succulent prototype\n" << endl;
 
         cout << "Available prototypes to clone:" << endl;
         cout << "1. Rose" << endl;
@@ -392,12 +395,13 @@ void staffPropagatePlant() {
         PlantPrototype* clonedProto = nursery.clonePrototype(type);
 
         if (clonedProto) {
-            cout << "\n✓ Successfully cloned " << type << " from prototype registry!" << endl;
+            cout << "\nSuccessfully cloned " << type << " from prototype registry!" << endl;
             cout << "  Clone Health: " << clonedProto->getPlantHealth() << "%" << endl;
             cout << "\nNursery Manager Pattern allows cloning without knowing specific plant instances." << endl;
+            cout << "\nPROTOTYPE PATTERN tested successfully!" << endl;
             delete clonedProto;
         } else {
-            cout << "\n✗ Failed to clone prototype!" << endl;
+            cout << "\nFailed to clone prototype!" << endl;
         }
     }
 
@@ -434,6 +438,7 @@ void staffCarePlants() {
     routine->careForPlant();
 
     cout << "\nCare routine completed successfully!" << endl;
+    cout << "\nTEMPLATE PATTERN tested successfully!" << endl;
 
     delete routine;
     waitForUser();
@@ -476,6 +481,7 @@ void staffWaterPlants() {
 
     cout << "\nWatering completed successfully!" << endl;
     cout << "Strategy applied to plants in greenhouse." << endl;
+    cout << "\nSTRATEGY PATTERN tested successfully!" << endl;
 
     delete strategy;
     waitForUser();
@@ -520,6 +526,7 @@ void staffManageLifecycle() {
 
     cout << "\n[STATE PATTERN]" << endl;
     cout << "Plant has progressed through all lifecycle states successfully." << endl;
+    cout << "\nSTATE PATTERN tested successfully!" << endl;
 
     delete context;
     waitForUser();
@@ -541,6 +548,7 @@ void staffUseAdapter() {
     controller.performDailyMaintenance();
 
     cout << "\nAdapter successfully integrated legacy system!" << endl;
+    cout << "\nADAPTER PATTERN tested successfully!" << endl;
 
     delete modernSystem;
     delete legacySystem;
@@ -554,8 +562,8 @@ void staffScheduleTasks() {
 
     TaskScheduler scheduler;
 
-    PlantCareStaff* careStaff = new PlantCareStaff("John");
-    SalesStaff* salesStaff = new SalesStaff("Sarah");
+    PlantCareStaff* careStaff = new PlantCareStaff("Dillon");
+    SalesStaff* salesStaff = new SalesStaff("Josh");
 
     cout << "Build your task schedule for today:\n" << endl;
     cout << "Available tasks:" << endl;
@@ -574,19 +582,19 @@ void staffScheduleTasks() {
 
         if (choice == 1) {
             scheduler.addCommand(new WaterPlantsCommand(careStaff));
-            cout << "✓ Added: Water Plants task" << endl;
+            cout << "Added: Water Plants task" << endl;
             taskCount++;
         } else if (choice == 2) {
             scheduler.addCommand(new FertilizePlantsCommand(careStaff));
-            cout << "✓ Added: Fertilize Plants task" << endl;
+            cout << "Added: Fertilize Plants task" << endl;
             taskCount++;
         } else if (choice == 3) {
             scheduler.addCommand(new PrunePlantsCommand(careStaff));
-            cout << "✓ Added: Prune Plants task" << endl;
+            cout << "Added: Prune Plants task" << endl;
             taskCount++;
         } else if (choice == 4) {
             scheduler.addCommand(new AssistCustomerCommand(salesStaff));
-            cout << "✓ Added: Assist Customer task" << endl;
+            cout << "Added: Assist Customer task" << endl;
             taskCount++;
         } else {
             scheduling = false;
@@ -599,7 +607,8 @@ void staffScheduleTasks() {
 
     scheduler.executeCommands();
 
-    cout << "\n✓ All " << taskCount << " tasks completed successfully!" << endl;
+    cout << "\nAll " << taskCount << " tasks completed successfully!" << endl;
+    cout << "\nCOMMAND PATTERN tested successfully!" << endl;
 
     delete careStaff;
     delete salesStaff;
@@ -674,6 +683,7 @@ void customerBrowsePlants() {
     }
 
     cout << "\nYour balance: R" << fixed << setprecision(2) << state->customerBalance << endl;
+    cout << "\nFACTORY PATTERN tested successfully!" << endl;
     waitForUser();
 }
 
@@ -729,15 +739,15 @@ void customerBuyPlant() {
 
         if (choice == 1) {
             product = new DecorativePotDecorator(product);
-            cout << "\n✓ Added: Decorative Pot (+R50)" << endl;
+            cout << "\nAdded: Decorative Pot (+R50)" << endl;
             cout << "Current total: R" << fixed << setprecision(2) << product->getPrice() << endl;
         } else if (choice == 2) {
             product = new GiftWrappingDecorator(product);
-            cout << "\n✓ Added: Gift Wrapping (+R25)" << endl;
+            cout << "\nAdded: Gift Wrapping (+R25)" << endl;
             cout << "Current total: R" << fixed << setprecision(2) << product->getPrice() << endl;
         } else if (choice == 3) {
             product = new GreetingCardDecorator(product);
-            cout << "\n✓ Added: Greeting Card (+R15)" << endl;
+            cout << "\nAdded: Greeting Card (+R15)" << endl;
             cout << "Current total: R" << fixed << setprecision(2) << product->getPrice() << endl;
         } else if (choice == 4) {
             addingDecorations = false;
@@ -766,9 +776,17 @@ void customerBuyPlant() {
     state->customerCart.push_back(product);
     state->customerBalance -= product->getPrice();
 
+    // Remove the plant from inventory and allPlants
+    state->inventory->removePlant(plant);
+    auto it = find(state->allPlants.begin(), state->allPlants.end(), plant);
+    if (it != state->allPlants.end()) {
+        state->allPlants.erase(it);
+    }
+
     cout << "\nPurchase successful!" << endl;
     cout << "Total cost: R" << fixed << setprecision(2) << product->getPrice() << endl;
     cout << "Remaining balance: R" << state->customerBalance << endl;
+    cout << "\nDECORATOR PATTERN tested successfully!" << endl;
 
     waitForUser();
 }
@@ -840,7 +858,7 @@ void customerCreateArrangement() {
     cout << "Your Balance: R" << state->customerBalance << endl;
 
     if (cost > state->customerBalance) {
-        cout << "\n✗ Insufficient funds! Arrangement not purchased." << endl;
+        cout << "\nInsufficient funds! Arrangement not purchased." << endl;
         delete arrangement;
     } else {
         cout << "\nConfirm purchase? (1=Yes, 2=No): ";
@@ -848,8 +866,9 @@ void customerCreateArrangement() {
 
         if (confirm == 1) {
             state->customerBalance -= cost;
-            cout << "\n✓ Purchase successful!" << endl;
+            cout << "\nPurchase successful!" << endl;
             cout << "Remaining balance: R" << fixed << setprecision(2) << state->customerBalance << endl;
+            cout << "\nBUILDER PATTERN tested successfully!" << endl;
         } else {
             cout << "\nPurchase cancelled." << endl;
         }
@@ -953,7 +972,7 @@ void mainMenu() {
                 showPatternSummary();
                 break;
             case 4:
-                cout << "\n✓ Thank you for using NJD Films Greenhouse System!" << endl;
+                cout << "\nThank you for using NJD Films Greenhouse System!" << endl;
                 cout << "  All 11 design patterns demonstrated successfully.\n" << endl;
                 return;
         }

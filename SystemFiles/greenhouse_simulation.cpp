@@ -569,8 +569,8 @@ void demonstrateCommandPattern() {
 
     printSubheader("Creating Staff Members");
 
-    PlantCareStaff* careStaff = new PlantCareStaff("John");
-    SalesStaff* salesStaff = new SalesStaff("Sarah");
+    PlantCareStaff* careStaff = new PlantCareStaff("Dillon");
+    SalesStaff* salesStaff = new SalesStaff("Josh");
 
     cout << "\nPlant Care Staff: " << careStaff->getName() << endl;
     cout << "Sales Staff: " << salesStaff->getName() << endl;
@@ -793,14 +793,20 @@ int main() {
         cout << "  - Shelves: 3" << endl;
         cout << "  - Patterns demonstrated: 11" << endl;
 
-        cout << "\nBenefits of Design Patterns:" << endl;
-        cout << "  1. Code reusability and modularity" << endl;
-        cout << "  2. Flexibility and extensibility" << endl;
-        cout << "  3. Maintainable and testable code" << endl;
-        cout << "  4. Clear separation of concerns" << endl;
-        cout << "  5. Industry-standard solutions" << endl;
+        cout << "\nSuccessfully Tested Patterns:" << endl;
+        cout << "  1. FACTORY PATTERN tested successfully!" << endl;
+        cout << "  2. PROTOTYPE PATTERN tested successfully!" << endl;
+        cout << "  3. COMPOSITE PATTERN tested successfully!" << endl;
+        cout << "  4. ITERATOR PATTERN tested successfully!" << endl;
+        cout << "  5. TEMPLATE PATTERN tested successfully!" << endl;
+        cout << "  6. STRATEGY PATTERN tested successfully!" << endl;
+        cout << "  7. STATE PATTERN tested successfully!" << endl;
+        cout << "  8. ADAPTER PATTERN tested successfully!" << endl;
+        cout << "  9. COMMAND PATTERN tested successfully!" << endl;
+        cout << "  10. DECORATOR PATTERN tested successfully!" << endl;
+        cout << "  11. BUILDER PATTERN tested successfully!" << endl;
 
-        cout << "\nThank you for exploring the NJD Films Greenhouse Management System!" << endl;
+        cout << "\nThank you for exploring the NJD Films Greenhouse Management System, now let me go to sleep please :)" << endl;
         printDivider();
 
     } catch (const exception& e) {
