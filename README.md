@@ -18,7 +18,7 @@ The NJD Films Greenhouse Management System is a C++ project that simulates a com
 
 ### Project Documentation
 - **[Documentation](Documents/)** - All the documentation you could need !
-
+- Report link - https://docs.google.com/document/d/1Wy35TTtSVy6gXbDJ4JAEyqBR_SL1USFAYaYBuiV-a4Q/edit?usp=sharing
 ### UML Diagrams
 - **[UML Diagrams](UMLs/)** - Design patterns and system architecture diagrams
 
