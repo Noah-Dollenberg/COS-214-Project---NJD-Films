@@ -1,7 +1,7 @@
 # NJD Films Greenhouse Simulation
 
 An interactive GUI application showcasing design patterns in a greenhouse management system.
-
+It is unfinished sadly
 ## Running the Application
 
 ### Step 1: Start the Backend Server
@@ -10,7 +10,7 @@ An interactive GUI application showcasing design patterns in a greenhouse manage
 cd backend/build
 ./greenhouse_api        # On Linux/macOS
 # or
-greenhouse_api.exe      # On Windows
+./greenhouse_api.exe      # On Windows
 ```
 
 The server will start on `http://127.0.0.1:8080`
