@@ -569,8 +569,8 @@ void demonstrateCommandPattern() {
 
     printSubheader("Creating Staff Members");
 
-    PlantCareStaff* careStaff = new PlantCareStaff("John");
-    SalesStaff* salesStaff = new SalesStaff("Sarah");
+    PlantCareStaff* careStaff = new PlantCareStaff("Dillon");
+    SalesStaff* salesStaff = new SalesStaff("Josh");
 
     cout << "\nPlant Care Staff: " << careStaff->getName() << endl;
     cout << "Sales Staff: " << salesStaff->getName() << endl;
