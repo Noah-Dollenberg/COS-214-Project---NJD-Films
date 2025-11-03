@@ -23,7 +23,7 @@ The NJD Films Greenhouse Management System is a C++ project that simulates a com
 - **[UML Diagrams](UMLs/)** - Design patterns and system architecture diagrams
 
 ### Doxygen API Documentation
-- **[Doxygen Documentation](Documents/docs/html/index.html)** - Auto-generated API documentation with UML class diagrams
+- **[Doxygen Documentation](https://noah-dollenberg.github.io/COS-214-Project---NJD-Films/)** - Auto-generated API documentation with UML class diagrams (hosted on GitHub Pages)
 
 ## Setup
 
