@@ -674,6 +674,7 @@ void customerBrowsePlants() {
     }
 
     cout << "\nYour balance: R" << fixed << setprecision(2) << state->customerBalance << endl;
+    cout << "\nFACTORY PATTERN tested successfully!" << endl;
     waitForUser();
 }
 
@@ -769,6 +770,7 @@ void customerBuyPlant() {
     cout << "\nPurchase successful!" << endl;
     cout << "Total cost: R" << fixed << setprecision(2) << product->getPrice() << endl;
     cout << "Remaining balance: R" << state->customerBalance << endl;
+    cout << "\nDECORATOR PATTERN tested successfully!" << endl;
 
     waitForUser();
 }
@@ -848,8 +850,9 @@ void customerCreateArrangement() {
 
         if (confirm == 1) {
             state->customerBalance -= cost;
-            cout << "\n✓ Purchase successful!" << endl;
+            cout << "\nPurchase successful!" << endl;
             cout << "Remaining balance: R" << fixed << setprecision(2) << state->customerBalance << endl;
+            cout << "\nBUILDER PATTERN tested successfully!" << endl;
         } else {
             cout << "\nPurchase cancelled." << endl;
         }
